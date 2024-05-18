@@ -17,7 +17,7 @@ canvas.addEventListener('mousemove', (event) => {
 canvas.addEventListener('click', (event) => {
     const rect = canvas.getBoundingClientRect();
     const x = event.clientX - rect.left;
-    const y = event.clientY - rect.top;
+        const y = event.clientY - rect.top;
 
     const gridX = Math.floor(x / gridSize) * gridSize;
     const gridY = Math.floor(y / gridSize) * gridSize;
@@ -156,3 +156,51 @@ function gameLoop() {
 
     requestAnimationFrame(gameLoop);
 }
+
+function gameOver() {
+    console.log('Game over');
+    gameOverMessage.style.display = 'block';
+    newGameButton.style.display = 'block';
+}
+
+function spawnEnemies() {
+    const level = stories[currentStory].levels[currentLevel];
+    level.enemies.forEach((enemy, index) => {
+        setTimeout(() => {
+            for (let i = 0; i < enemy.quantity; i++) {
+                enemies.push(new Enemy(enemy.id, path[0].x, path[0].y));
+            }
+        }, index * 1000);
+    });
+}
+
+function initStory(storyIndex) {
+    currentStory = storyIndex;
+    currentLevel = 0;
+    const story = stories[currentStory];
+    alert(story.descriptionStart);
+    const map = getMapById(story.mapId);
+    background = new Image();
+    background.src = map.background;
+    path = map.path;
+    initLevel(currentLevel);
+}
+
+function initLevel(levelIndex) {
+    enemies = [];
+    if (levelIndex > 0) {
+        coins += stories[currentStory].levels[levelIndex].startingCoins;
+    } else {
+        coins = stories[currentStory].levels[levelIndex].startingCoins;
+    }
+    updateBalanceDisplay();
+    updateLivesDisplay();
+    drawGame();
+}
+
+function loadGame() {
+    initStory(0);
+}
+
+loadGame();
+gameLoop();

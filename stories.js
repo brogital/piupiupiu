@@ -19,5 +19,23 @@ const stories = [
             // Добавьте другие уровни здесь
         ]
     },
+    {
+        id: 1,
+        mapId: 1,
+        descriptionStart: "Начало истории 2",
+        descriptionEnd: "Конец истории 2",
+        levels: [
+            {
+                startingCoins: 120,
+                towerCost: 60,
+                rewardPerKill: 15,
+                enemies: [
+                    { id: 'basic', quantity: 15 },
+                    { id: 'flying', quantity: 10 }
+                ]
+            },
+            // Добавьте другие уровни здесь
+        ]
+    },
     // Добавьте другие истории здесь
 ];
