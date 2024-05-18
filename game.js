@@ -90,7 +90,7 @@ function newGame() {
     console.log('New game started');
     currentLevel = 0;
     lives = 10;
-    coins = levels[currentLevel].startingCoins;
+    coins = 100;  // Начальные монеты для новой игры
     towers = [];
     enemies = [];
     gameRunning = false;
@@ -251,7 +251,11 @@ function spawnEnemies() {
 
 function initLevel(level) {
     enemies = [];
-    coins = levels[level].startingCoins;
+    if (level > 0) {
+        coins += levels[level].startingCoins; // Добавляем начальные монеты уровня к оставшимся
+    } else {
+        coins = levels[level].startingCoins; // Начальные монеты для первого уровня
+    }
     updateBalanceDisplay();
     updateLivesDisplay();
     drawGame();
