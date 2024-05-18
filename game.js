@@ -14,7 +14,6 @@ let gameRunning = false;
 let buildingPhase = true;
 let currentStory = null;
 let currentLevel = 0;
-let enemies = [];
 let lives = 10;
 let coins = 100;
 
