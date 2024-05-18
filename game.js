@@ -14,10 +14,12 @@ let gameRunning = false;
 let buildingPhase = true;
 let currentStory = null;
 let currentLevel = 0;
+let towers = [];
+let enemies = [];
 let lives = 10;
 let coins = 100;
 
-const background = new Image();
+let background = new Image(); // изменено с const на let
 
 canvas.addEventListener('mousemove', (event) => {
     if (selectedTowerType) {
@@ -247,6 +249,7 @@ function initStory(storyIndex) {
     currentLevel = 0;
     const story = stories[currentStory];
     alert(story.descriptionStart);
+    background = new Image(); // Создаем новый объект Image
     background.src = getMapById(story.mapId).background;
     initLevel(currentLevel);
 }
