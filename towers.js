@@ -13,7 +13,7 @@ class Tower {
 
     draw() {
         const img = new Image();
-        img.src = `tower-${this.type}.png`;
+        img.src = `images/tower-${this.type}.png`;
         ctx.drawImage(img, this.x, this.y, gridSize, gridSize);
     }
 

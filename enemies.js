@@ -12,7 +12,7 @@ class Enemy {
 
     draw() {
         const img = new Image();
-        img.src = `enemy-${this.type}.png`;
+        img.src = `images/enemy-${this.type}.png`;
         ctx.drawImage(img, this.x, this.y, gridSize, gridSize);
     }
 
