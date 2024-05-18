@@ -3,10 +3,9 @@ const towerImages = {
     square: new Image()
 };
 
-towerImages.circle.src = 'images/tower-circle.png'; // Убедитесь, что путь к изображению правильный
-towerImages.square.src = 'images/tower-square.png'; // Убедитесь, что путь к изображению правильный
+towerImages.circle.src = 'images/tower-circle.png';
+towerImages.square.src = 'images/tower-square.png';
 
-tower-square.png
 class Tower {
     constructor(x, y, shape, color) {
         this.x = x;
