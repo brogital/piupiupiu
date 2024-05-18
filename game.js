@@ -14,7 +14,7 @@ let gameRunning = false;
 let buildingPhase = true;
 let currentStory = null;
 let currentLevel = 0;
-let towers = [];
+let towers = []; // Убедитесь, что это объявление не дублируется
 let enemies = [];
 let lives = 10;
 let coins = 100;
@@ -237,9 +237,8 @@ function spawnEnemies() {
     const level = stories[currentStory].levels[currentLevel];
     level.enemies.forEach((enemy, index) => {
         setTimeout(() => {
-            const enemyInstance = new Enemy(enemy.id, path[0].x, path[0].y);
             for (let i = 0; i < enemy.quantity; i++) {
-                enemies.push(enemyInstance);
+                enemies.push(new Enemy(enemy.id, path[0].x, path[0].y));
             }
         }, index * 1000);
     });
