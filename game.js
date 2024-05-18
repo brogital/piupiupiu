@@ -13,10 +13,7 @@ let selectedTowerType = null;
 let gameRunning = false;
 let buildingPhase = true;
 let currentStory = null;
-let currentLevel = 0;
-if (typeof towers === 'undefined') {
-    var towers = []; // Объявление towers, если не было объявлено ранее
-}
+let towers = []; // Убедитесь, что это объявлено только один раз
 let enemies = [];
 let lives = 10;
 let coins = 100;
@@ -37,6 +34,10 @@ window.startLevel = function() {
     upgradeTowerButton.style.display = 'none';
     phaseInfo.textContent = '';
     spawnEnemies();
+};
+
+
+Enemies();
 };
 
 canvas.addEventListener('mousemove', (event) => {
