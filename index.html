@@ -12,10 +12,16 @@
         <span>💰 Баланс: <span id="balance">100</span></span>
         <span>❤️ Жизни: <span id="lives">10</span></span>
     </div>
+    <div id="story-selection">
+        <button onclick="initStory(0)">Начать Историю 1</button>
+        <button onclick="initStory(1)">Начать Историю 2</button>
+        <!-- Добавьте кнопки для других историй -->
+    </div>
     <canvas id="gameCanvas" width="800" height="600"></canvas>
     <div id="controls">
         <button onclick="selectTower('circle')">Башня круга (50)</button>
         <button onclick="selectTower('square')">Башня квадрата (50)</button>
+        <!-- Добавьте другие кнопки для выбора башен -->
         <button id="startLevelButton" onclick="startLevel()">Начать уровень</button>
         <button id="upgradeTowerButton" onclick="upgradeTower()" style="display: none;">Улучшить башню</button>
     </div>
@@ -23,9 +29,10 @@
     <button id="newGameButton" onclick="newGame()" style="display: none;">Новая игра</button>
     <div id="game-over" style="display: none;">Чумбурчекнуки захватили Махатму!</div>
     <div id="phase-info"></div>
-    <script src="tower.js"></script>
-    <script src="enemy.js"></script>
-    <script src="level.js"></script>
+    <script src="towers.js"></script>
+    <script src="enemies.js"></script>
+    <script src="maps.js"></script>
+    <script src="stories.js"></script>
     <script src="game.js"></script>
 </body>
 </html>

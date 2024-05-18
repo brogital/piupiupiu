@@ -12,6 +12,7 @@ const gridSize = 20;
 let selectedTowerType = null;
 let gameRunning = false;
 let buildingPhase = true;
+let currentStory = null;
 let currentLevel = 0;
 let towers = [];
 let enemies = [];
@@ -19,13 +20,6 @@ let lives = 10;
 let coins = 100;
 
 const background = new Image();
-background.src = 'images/background-neutral.png';
-
-background.onload = () => {
-    console.log('Background image loaded');
-    initLevel(currentLevel);
-    gameLoop();
-};
 
 canvas.addEventListener('mousemove', (event) => {
     if (selectedTowerType) {
@@ -53,9 +47,9 @@ canvas.addEventListener('click', (event) => {
 
     if (clickedTower) {
         clickedTower.displayInfo();
-    } else if (selectedTowerType && coins >= levels[currentLevel].towerCost && !isOnPath(gridX, gridY)) {
-        towers.push(new Tower(gridX, gridY, selectedTowerType, selectedTowerType === 'circle' ? 'blue' : 'green'));
-        coins -= levels[currentLevel].towerCost;
+    } else if (selectedTowerType && coins >= stories[currentStory].levels[currentLevel].towerCost && !isOnPath(gridX, gridY)) {
+        towers.push(new Tower(selectedTowerType, gridX, gridY));
+        coins -= stories[currentStory].levels[currentLevel].towerCost;
         selectedTowerType = null;
         updateBalanceDisplay();
     }
@@ -88,7 +82,6 @@ function upgradeTower() {
 
 function newGame() {
     console.log('New game started');
-    currentLevel = 0;
     lives = 10;
     coins = 100;  // Начальные монеты для новой игры
     towers = [];
@@ -99,7 +92,7 @@ function newGame() {
     gameOverMessage.style.display = 'none';
     startLevelButton.style.display = 'inline-block';
     phaseInfo.textContent = 'Фаза строительства';
-    initLevel(currentLevel);
+    initStory(currentStory);
     gameLoop();
 }
 
@@ -179,14 +172,14 @@ function gameLoop() {
         enemies.forEach((enemy, index) => {
             if (enemy.health <= 0) {
                 enemies.splice(index, 1);
-                coins += levels[currentLevel].rewardPerKill;
+                coins += stories[currentStory].levels[currentLevel].rewardPerKill;
                 updateBalanceDisplay();
             } else if (enemy.pathIndex >= enemy.path.length) {
                 lives--;
                 updateLivesDisplay();
                 enemies.splice(index, 1);
             } else {
-                enemy.move();
+                enemy.move(path);
                 enemy.draw();
             }
         });
@@ -194,7 +187,7 @@ function gameLoop() {
         if (lives <= 0) {
             gameRunning = false;
             gameOver();
-        } else if (enemies.length === 0 && currentLevel < levels.length - 1) {
+        } else if (enemies.length === 0 && currentLevel < stories[currentStory].levels.length - 1) {
             gameRunning = false;
             buildingPhase = true;
             startLevelButton.style.display = 'inline-block';
@@ -202,7 +195,7 @@ function gameLoop() {
             phaseInfo.textContent = 'Фаза строительства';
             currentLevel++;
             initLevel(currentLevel);
-        } else if (enemies.length === 0 && currentLevel === levels.length - 1) {
+        } else if (enemies.length === 0 && currentLevel === stories[currentStory].levels.length - 1) {
             gameRunning = false;
             buildingPhase = true;
             startLevelButton.style.display = 'inline-block';
@@ -241,25 +234,42 @@ function showFireworks() {
 }
 
 function spawnEnemies() {
-    const level = levels[currentLevel];
+    const level = stories[currentStory].levels[currentLevel];
     level.enemies.forEach((enemy, index) => {
         setTimeout(() => {
-            enemies.push(new Enemy(path, enemy.health, enemy.speed));
+            const enemyInstance = new Enemy(enemy.id, path[0].x, path[0].y);
+            for (let i = 0; i < enemy.quantity; i++) {
+                enemies.push(enemyInstance);
+            }
         }, index * 1000);
     });
 }
 
-function initLevel(level) {
+function initStory(storyIndex) {
+    currentStory = storyIndex;
+    currentLevel = 0;
+    const story = stories[currentStory];
+    alert(story.descriptionStart);
+    background.src = getMapById(story.mapId).background;
+    initLevel(currentLevel);
+}
+
+function initLevel(levelIndex) {
     enemies = [];
-    if (level > 0) {
-        coins += levels[level].startingCoins; // Добавляем начальные монеты уровня к оставшимся
+    if (levelIndex > 0) {
+        coins += stories[currentStory].levels[levelIndex].startingCoins; // Добавляем начальные монеты уровня к оставшимся
     } else {
-        coins = levels[level].startingCoins; // Начальные монеты для первого уровня
+        coins = stories[currentStory].levels[levelIndex].startingCoins; // Начальные монеты для первого уровня
     }
     updateBalanceDisplay();
     updateLivesDisplay();
     drawGame();
 }
 
-initLevel(currentLevel);
+function loadGame() {
+    // Загрузка первой истории по умолчанию, можно изменить для выбора истории
+    initStory(0);
+}
+
+loadGame();
 gameLoop();

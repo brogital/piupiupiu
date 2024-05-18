@@ -11,190 +11,63 @@ const path = [
 
 const levels = [
     {
-        enemies: [
-            { health: 50, speed: 1 },
-            { health: 50, speed: 1 },
-            { health: 50, speed: 1 },
-            { health: 50, speed: 1 },
-            { health: 50, speed: 1 },
-            { health: 50, speed: 1 },
-            { health: 50, speed: 1 },
-            { health: 50, speed: 1 },
-            { health: 50, speed: 1 },
-            { health: 50, speed: 1 }
-        ],
+        enemies: Array.from({ length: 10 }, () => ({ health: 50, speed: 1 })),
         startingCoins: 100,
         towerCost: 50,
         rewardPerKill: 10
     },
     {
-        enemies: [
-            { health: 60, speed: 1.2 },
-            { health: 60, speed: 1.2 },
-            { health: 60, speed: 1.2 },
-            { health: 60, speed: 1.2 },
-            { health: 60, speed: 1.2 },
-            { health: 60, speed: 1.2 },
-            { health: 60, speed: 1.2 },
-            { health: 60, speed: 1.2 },
-            { health: 60, speed: 1.2 },
-            { health: 60, speed: 1.2 }
-        ],
+        enemies: Array.from({ length: 15 }, () => ({ health: 60, speed: 1.1 })),
         startingCoins: 120,
         towerCost: 50,
         rewardPerKill: 15
     },
     {
-        enemies: [
-            { health: 70, speed: 1.4 },
-            { health: 70, speed: 1.4 },
-            { health: 70, speed: 1.4 },
-            { health: 70, speed: 1.4 },
-            { health: 70, speed: 1.4 },
-            { health: 70, speed: 1.4 },
-            { health: 70, speed: 1.4 },
-            { health: 70, speed: 1.4 },
-            { health: 70, speed: 1.4 },
-            { health: 70, speed: 1.4 }
-        ],
+        enemies: Array.from({ length: 20 }, () => ({ health: 70, speed: 1.2 })),
         startingCoins: 140,
         towerCost: 50,
         rewardPerKill: 20
     },
     {
-        enemies: [
-            { health: 80, speed: 1.6 },
-            { health: 80, speed: 1.6 },
-            { health: 80, speed: 1.6 },
-            { health: 80, speed: 1.6 },
-            { health: 80, speed: 1.6 },
-            { health: 80, speed: 1.6 },
-            { health: 80, speed: 1.6 },
-            { health: 80, speed: 1.6 },
-            { health: 80, speed: 1.6 },
-            { health: 80, speed: 1.6 }
-        ],
+        enemies: Array.from({ length: 25 }, () => ({ health: 80, speed: 1.3 })),
         startingCoins: 160,
         towerCost: 50,
         rewardPerKill: 25
     },
     {
-        enemies: [
-            { health: 90, speed: 1.8 },
-            { health: 90, speed: 1.8 },
-            { health: 90, speed: 1.8 },
-            { health: 90, speed: 1.8 },
-            { health: 90, speed: 1.8 },
-            { health: 90, speed: 1.8 },
-            { health: 90, speed: 1.8 },
-            { health: 90, speed: 1.8 },
-            { health: 90, speed: 1.8 },
-            { health: 90, speed: 1.8 }
-        ],
+        enemies: Array.from({ length: 30 }, () => ({ health: 90, speed: 1.4 })),
         startingCoins: 180,
         towerCost: 50,
         rewardPerKill: 30
     },
     {
-        enemies: [
-            { health: 100, speed: 2 },
-            { health: 100, speed: 2 },
-            { health: 100, speed: 2 },
-            { health: 100, speed: 2 },
-            { health: 100, speed: 2 },
-            { health: 100, speed: 2 },
-            { health: 100, speed: 2 },
-            { health: 100, speed: 2 },
-            { health: 100, speed: 2 },
-            { health: 100, speed: 2 }
-        ],
+        enemies: Array.from({ length: 35 }, () => ({ health: 100, speed: 1.5 })),
         startingCoins: 200,
         towerCost: 50,
         rewardPerKill: 35
     },
     {
-        enemies: [
-            { health: 110, speed: 2.2 },
-            { health: 110, speed: 2.2 },
-            { health: 110, speed: 2.2 },
-            { health: 110, speed: 2.2 },
-            { health: 110, speed: 2.2 },
-            { health: 110, speed: 2.2 },
-            { health: 110, speed: 2.2 },
-            { health: 110, speed: 2.2 },
-            { health: 110, speed: 2.2 },
-            { health: 110, speed: 2.2 }
-        ],
+        enemies: Array.from({ length: 40 }, () => ({ health: 110, speed: 1.6 })),
         startingCoins: 220,
         towerCost: 50,
         rewardPerKill: 40
     },
     {
-        enemies: [
-            { health: 120, speed: 2.4 },
-            { health: 120, speed: 2.4 },
-            { health: 120, speed: 2.4 },
-            { health: 120, speed: 2.4 },
-            { health: 120, speed: 2.4 },
-            { health: 120, speed: 2.4 },
-            { health: 120, speed: 2.4 },
-            { health: 120, speed: 2.4 },
-            { health: 120, speed: 2.4 },
-            { health: 120, speed: 2.4 }
-        ],
+        enemies: Array.from({ length: 45 }, () => ({ health: 120, speed: 1.7 })),
         startingCoins: 240,
         towerCost: 50,
         rewardPerKill: 45
     },
     {
-        enemies: [
-            { health: 130, speed: 2.6 },
-            { health: 130, speed: 2.6 },
-            { health: 130, speed: 2.6 },
-            { health: 130, speed: 2.6 },
-            { health: 130, speed: 2.6 },
-            { health: 130, speed: 2.6 },
-            { health: 130, speed: 2.6 },
-            { health: 130, speed: 2.6 },
-            { health: 130, speed: 2.6 },
-            { health: 130, speed: 2.6 }
-        ],
+        enemies: Array.from({ length: 50 }, () => ({ health: 130, speed: 1.8 })),
         startingCoins: 260,
         towerCost: 50,
         rewardPerKill: 50
     },
     {
-        enemies: [
-            { health: 140, speed: 2.8 },
-            { health: 140, speed: 2.8 },
-            { health: 140, speed: 2.8 },
-            { health: 140, speed: 2.8 },
-            { health: 140, speed: 2.8 },
-            { health: 140, speed: 2.8 },
-            { health: 140, speed: 2.8 },
-            { health: 140, speed: 2.8 },
-            { health: 140, speed: 2.8 },
-            { health: 140, speed: 2.8 }
-        ],
+        enemies: Array.from({ length: 55 }, () => ({ health: 140, speed: 1.9 })),
         startingCoins: 280,
         towerCost: 50,
         rewardPerKill: 55
-    },
-    {
-        enemies: [
-            { health: 150, speed: 3 },
-            { health: 150, speed: 3 },
-            { health: 150, speed: 3 },
-            { health: 150, speed: 3 },
-            { health: 150, speed: 3 },
-            { health: 150, speed: 3 },
-            { health: 150, speed: 3 },
-            { health: 150, speed: 3 },
-            { health: 150, speed: 3 },
-            { health: 150, speed: 3 }
-        ],
-        startingCoins: 300,
-        towerCost: 50,
-        rewardPerKill: 60
     }
 ];
