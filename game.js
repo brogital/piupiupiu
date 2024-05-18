@@ -17,7 +17,7 @@ canvas.addEventListener('mousemove', (event) => {
 canvas.addEventListener('click', (event) => {
     const rect = canvas.getBoundingClientRect();
     const x = event.clientX - rect.left;
-        const y = event.clientY - rect.top;
+    const y = event.clientY - rect.top;
 
     const gridX = Math.floor(x / gridSize) * gridSize;
     const gridY = Math.floor(y / gridSize) * gridSize;
@@ -181,7 +181,7 @@ function initStory(storyIndex) {
     alert(story.descriptionStart);
     const map = getMapById(story.mapId);
     background = new Image();
-    background.src = map.background;
+    background.src = `images/${map.background}`;
     path = map.path;
     initLevel(currentLevel);
 }
