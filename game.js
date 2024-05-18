@@ -14,9 +14,10 @@ let gameRunning = false;
 let buildingPhase = true;
 
 const background = new Image();
-background.src = 'images/background-neutral.png'; // Обновление пути к фону
+background.src = 'images/background-neutral.png';
 
 background.onload = () => {
+    console.log('Background image loaded');
     initLevel(currentLevel);
     gameLoop();
 };
@@ -56,10 +57,12 @@ canvas.addEventListener('click', (event) => {
 });
 
 function selectTower(type) {
+    console.log('Tower selected:', type);
     selectedTowerType = type;
 }
 
 function startLevel() {
+    console.log('Level started');
     gameRunning = true;
     buildingPhase = false;
     startLevelButton.style.display = 'none';
@@ -69,6 +72,7 @@ function startLevel() {
 
 function upgradeTower() {
     if (selectedTower && coins >= selectedTower.level * 10) {
+        console.log('Upgrading tower');
         selectedTower.upgrade();
         coins -= selectedTower.level * 10;
         updateBalanceDisplay();
@@ -77,6 +81,7 @@ function upgradeTower() {
 }
 
 function newGame() {
+    console.log('New game started');
     currentLevel = 0;
     lives = 10;
     coins = levels[currentLevel].startingCoins;
@@ -94,10 +99,12 @@ function newGame() {
 
 function updateBalanceDisplay() {
     balanceDisplay.textContent = coins;
+    console.log('Balance updated:', coins);
 }
 
 function updateLivesDisplay() {
     livesDisplay.textContent = lives;
+    console.log('Lives updated:', lives);
 }
 
 function isOnPath(x, y) {
@@ -207,6 +214,7 @@ function gameLoop() {
 }
 
 function gameOver() {
+    console.log('Game over');
     gameOverMessage.style.display = 'block';
     newGameButton.style.display = 'block';
 }
