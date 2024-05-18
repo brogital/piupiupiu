@@ -68,6 +68,7 @@ function startLevel() {
     startLevelButton.style.display = 'none';
     upgradeTowerButton.style.display = 'none';
     phaseInfo.textContent = '';
+    spawnEnemies();
 }
 
 function upgradeTower() {
@@ -108,7 +109,6 @@ function updateLivesDisplay() {
 }
 
 function isOnPath(x, y) {
-    // Проверка, находится ли точка на пути
     return path.some(point => Math.abs(point.x - x) < gridSize * 1.5 && Math.abs(point.y - y) < gridSize * 1.5);
 }
 
@@ -128,19 +128,19 @@ function drawGrid() {
 
 function drawPath() {
     ctx.strokeStyle = 'gray';
-    ctx.lineWidth = 20; // Увеличим ширину линии для пути монстров
+    ctx.lineWidth = 20;
     ctx.beginPath();
     ctx.moveTo(path[0].x, path[0].y);
     for (let i = 1; i < path.length; i++) {
         ctx.lineTo(path[i].x, path[i].y);
     }
     ctx.stroke();
-    ctx.lineWidth = 1; // Вернем ширину линии обратно
+    ctx.lineWidth = 1;
 }
 
 function drawGame() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.drawImage(background, 0, 0, canvas.width, canvas.height); // Отображение фона
+    ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
     drawGrid();
     drawPath();
 
@@ -158,7 +158,7 @@ function drawPreviewTower(x, y) {
         ctx.fill();
         ctx.strokeStyle = 'rgba(0, 0, 255, 0.3)';
         ctx.beginPath();
-        ctx.arc(x, y, 100, 0, Math.PI * 2); // Используем начальный радиус 100
+        ctx.arc(x, y, 100, 0, Math.PI * 2);
         ctx.stroke();
     }
 }
@@ -177,7 +177,6 @@ function gameLoop() {
                 coins += levels[currentLevel].rewardPerKill;
                 updateBalanceDisplay();
             } else if (enemy.pathIndex >= enemy.path.length) {
-                // Enemy reached the end of the path
                 lives--;
                 updateLivesDisplay();
                 enemies.splice(index, 1);
@@ -220,7 +219,6 @@ function gameOver() {
 }
 
 function showFireworks() {
-    // Показать праздничный салют
     const colors = ['red', 'blue', 'green', 'yellow', 'purple', 'orange'];
     const fireworksInterval = setInterval(() => {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -235,6 +233,15 @@ function showFireworks() {
         }
     }, 500);
     setTimeout(() => clearInterval(fireworksInterval), 5000);
+}
+
+function spawnEnemies() {
+    const level = levels[currentLevel];
+    level.enemies.forEach((enemy, index) => {
+        setTimeout(() => {
+            enemies.push(new Enemy(path, enemy.health, enemy.speed));
+        }, index * 1000); // Spawning enemies with 1-second interval
+    });
 }
 
 initLevel(currentLevel);

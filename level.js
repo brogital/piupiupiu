@@ -11,58 +11,133 @@ const path = [
 
 const levels = [
     {
-        enemies: Array.from({ length: 10 }, () => new Enemy(path, 50, 1)),
-        towers: [],
+        enemies: [
+            { health: 50, speed: 1 },
+            { health: 50, speed: 1 },
+            { health: 50, speed: 1 },
+            { health: 50, speed: 1 },
+            { health: 50, speed: 1 },
+            { health: 50, speed: 1 },
+            { health: 50, speed: 1 },
+            { health: 50, speed: 1 },
+            { health: 50, speed: 1 },
+            { health: 50, speed: 1 }
+        ],
         startingCoins: 100,
         towerCost: 50,
         rewardPerKill: 10
     },
     {
-        enemies: Array.from({ length: 15 }, () => new Enemy(path, 60, 1.2)),
-        towers: [],
+        enemies: [
+            { health: 60, speed: 1.2 },
+            { health: 60, speed: 1.2 },
+            { health: 60, speed: 1.2 },
+            { health: 60, speed: 1.2 },
+            { health: 60, speed: 1.2 },
+            { health: 60, speed: 1.2 },
+            { health: 60, speed: 1.2 },
+            { health: 60, speed: 1.2 },
+            { health: 60, speed: 1.2 },
+            { health: 60, speed: 1.2 },
+            { health: 60, speed: 1.2 },
+            { health: 60, speed: 1.2 },
+            { health: 60, speed: 1.2 },
+            { health: 60, speed: 1.2 },
+            { health: 60, speed: 1.2 }
+        ],
         startingCoins: 120,
         towerCost: 50,
-        rewardPerKill: 12
+        rewardPerKill: 15
     },
     {
-        enemies: Array.from({ length: 20 }, () => new Enemy(path, 70, 1.5)),
-        towers: [],
+        enemies: [
+            { health: 70, speed: 1.4 },
+            { health: 70, speed: 1.4 },
+            { health: 70, speed: 1.4 },
+            { health: 70, speed: 1.4 },
+            { health: 70, speed: 1.4 },
+            { health: 70, speed: 1.4 },
+            { health: 70, speed: 1.4 },
+            { health: 70, speed: 1.4 },
+            { health: 70, speed: 1.4 },
+            { health: 70, speed: 1.4 },
+            { health: 70, speed: 1.4 },
+            { health: 70, speed: 1.4 },
+            { health: 70, speed: 1.4 },
+            { health: 70, speed: 1.4 },
+            { health: 70, speed: 1.4 },
+            { health: 70, speed: 1.4 },
+            { health: 70, speed: 1.4 },
+            { health: 70, speed: 1.4 },
+            { health: 70, speed: 1.4 },
+            { health: 70, speed: 1.4 }
+        ],
         startingCoins: 140,
         towerCost: 50,
-        rewardPerKill: 14
+        rewardPerKill: 20
     },
     {
-        enemies: Array.from({ length: 25 }, () => new Enemy(path, 80, 1.8)),
-        towers: [],
+        enemies: [
+            { health: 80, speed: 1.6 },
+            { health: 80, speed: 1.6 },
+            { health: 80, speed: 1.6 },
+            { health: 80, speed: 1.6 },
+            { health: 80, speed: 1.6 },
+            { health: 80, speed: 1.6 },
+            { health: 80, speed: 1.6 },
+            { health: 80, speed: 1.6 },
+            { health: 80, speed: 1.6 },
+            { health: 80, speed: 1.6 },
+            { health: 80, speed: 1.6 },
+            { health: 80, speed: 1.6 },
+            { health: 80, speed: 1.6 },
+            { health: 80, speed: 1.6 },
+            { health: 80, speed: 1.6 },
+            { health: 80, speed: 1.6 },
+            { health: 80, speed: 1.6 },
+            { health: 80, speed: 1.6 },
+            { health: 80, speed: 1.6 },
+            { health: 80, speed: 1.6 },
+            { health: 80, speed: 1.6 },
+            { health: 80, speed: 1.6 },
+            { health: 80, speed: 1.6 },
+            { health: 80, speed: 1.6 },
+            { health: 80, speed: 1.6 }
+        ],
         startingCoins: 160,
         towerCost: 50,
-        rewardPerKill: 16
+        rewardPerKill: 25
     },
     {
-        enemies: Array.from({ length: 30 }, () => new Enemy(path, 90, 2)),
-        towers: [],
+        enemies: [
+            { health: 90, speed: 1.8 },
+            { health: 90, speed: 1.8 },
+            { health: 90, speed: 1.8 },
+            { health: 90, speed: 1.8 },
+            { health: 90, speed: 1.8 },
+            { health: 90, speed: 1.8 },
+            { health: 90, speed: 1.8 },
+            { health: 90, speed: 1.8 },
+            { health: 90, speed: 1.8 },
+            { health: 90, speed: 1.8 },
+            { health: 90, speed: 1.8 },
+            { health: 90, speed: 1.8 },
+            { health: 90, speed: 1.8 },
+            { health: 90, speed: 1.8 },
+            { health: 90, speed: 1.8 },
+            { health: 90, speed: 1.8 },
+            { health: 90, speed: 1.8 },
+            { health: 90, speed: 1.8 },
+            { health: 90, speed: 1.8 },
+            { health: 90, speed: 1.8 },
+            { health: 90, speed: 1.8 },
+            { health: 90, speed: 1.8 },
+            { health: 90, speed: 1.8 },
+            { health: 90, speed: 1.8 },
+            { health: 90, speed: 1.8 }
+        ],
         startingCoins: 180,
         towerCost: 50,
-        rewardPerKill: 18
+        rewardPerKill: 30
     }
 ];
-
-let currentLevel = 0;
-let coins = levels[currentLevel].startingCoins;
-let towers = [];
-let enemies = [];
-
-function initLevel(levelIndex) {
-    const level = levels[levelIndex];
-    enemies = level.enemies;
-    towers = level.towers.map(t => new Tower(t.x, t.y, t.shape, t.color));
-    coins = level.startingCoins;
-    updateLevelInfo();
-    updateBalanceDisplay();
-}
-
-function updateLevelInfo() {
-    const levelInfoDiv = document.getElementById('level-info');
-    const level = levels[currentLevel];
-    levelInfoDiv.textContent = `Уровень: ${currentLevel + 1}, Монстров: ${level.enemies.length}, Здоровье монстров: ${level.enemies[0].health}`;
-}

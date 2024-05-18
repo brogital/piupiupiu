@@ -24,7 +24,7 @@ class Enemy {
         if (distance < this.speed) {
             this.pathIndex++;
             if (this.pathIndex >= this.path.length) {
-                this.health = 0; // Монстр достиг конца пути
+                this.health = 0; // Enemy reached the end of the path
                 return;
             }
         } else {
@@ -37,7 +37,7 @@ class Enemy {
         if (enemyImage.complete) {
             ctx.drawImage(enemyImage, this.x - 10, this.y - 10, 20, 20);
         } else {
-            // Резервное отображение, если изображение не загружено
+            // Fallback if the image is not loaded
             ctx.fillStyle = 'red';
             ctx.fillRect(this.x - 10, this.y - 10, 20, 20);
         }
