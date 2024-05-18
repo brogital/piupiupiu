@@ -175,7 +175,7 @@ function gameLoop() {
                 enemies.splice(index, 1);
                 coins += stories[currentStory].levels[currentLevel].rewardPerKill;
                 updateBalanceDisplay();
-            } else if (enemy.pathIndex >= path.length) {
+            } else if (enemy.pathIndex >= path.length) { // Изменено на path.length
                 lives--;
                 updateLivesDisplay();
                 enemies.splice(index, 1);
@@ -201,7 +201,6 @@ function gameLoop() {
             buildingPhase = true;
             startLevelButton.style.display = 'inline-block';
             phaseInfo.textContent = 'Вы победили! Начните новую игру!';
-            showFireworks();
         }
     } else {
         towers.forEach(tower => tower.drawRange());
@@ -215,23 +214,6 @@ function gameOver() {
     console.log('Game over');
     gameOverMessage.style.display = 'block';
     newGameButton.style.display = 'block';
-}
-
-function showFireworks() {
-    const colors = ['red', 'blue', 'green', 'yellow', 'purple', 'orange'];
-    const fireworksInterval = setInterval(() => {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        for (let i = 0; i < 10; i++) {
-            const x = Math.random() * canvas.width;
-            const y = Math.random() * canvas.height;
-            const radius = Math.random() * 50 + 20;
-            ctx.beginPath();
-            ctx.arc(x, y, radius, 0, Math.PI * 2);
-            ctx.fillStyle = colors[Math.floor(Math.random() * colors.length)];
-            ctx.fill();
-        }
-    }, 500);
-    setTimeout(() => clearInterval(fireworksInterval), 5000);
 }
 
 function spawnEnemies() {
@@ -268,7 +250,6 @@ function initLevel(levelIndex) {
     updateLivesDisplay();
     drawGame();
 }
-
 
 function loadGame() {
     // Загрузка первой истории по умолчанию, можно изменить для выбора истории
