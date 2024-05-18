@@ -13,13 +13,14 @@ let selectedTowerType = null;
 let gameRunning = false;
 let buildingPhase = true;
 let currentStory = null;
-let towers = []; // Убедитесь, что это объявлено только один раз
+let currentLevel = 0;
+let towers = []; 
 let enemies = [];
 let lives = 10;
 let coins = 100;
 
 let background = new Image();
-let path = []; // Инициализация переменной path
+let path = [];
 
 window.selectTower = function(type) {
     console.log('Tower selected:', type);
@@ -34,10 +35,6 @@ window.startLevel = function() {
     upgradeTowerButton.style.display = 'none';
     phaseInfo.textContent = '';
     spawnEnemies();
-};
-
-
-Enemies();
 };
 
 canvas.addEventListener('mousemove', (event) => {
@@ -87,7 +84,7 @@ function upgradeTower() {
 function newGame() {
     console.log('New game started');
     lives = 10;
-    coins = 100;  // Начальные монеты для новой игры
+    coins = 100;
     towers = [];
     enemies = [];
     gameRunning = false;
@@ -178,7 +175,7 @@ function gameLoop() {
                 enemies.splice(index, 1);
                 coins += stories[currentStory].levels[currentLevel].rewardPerKill;
                 updateBalanceDisplay();
-            } else if (enemy.pathIndex >= path.length) { // Изменено на path.length
+            } else if (enemy.pathIndex >= path.length) {
                 lives--;
                 updateLivesDisplay();
                 enemies.splice(index, 1);
@@ -236,18 +233,18 @@ function initStory(storyIndex) {
     const story = stories[currentStory];
     alert(story.descriptionStart);
     const map = getMapById(story.mapId);
-    background = new Image(); // Создаем новый объект Image
+    background = new Image();
     background.src = map.background;
-    path = map.path; // Инициализируем путь карты
+    path = map.path;
     initLevel(currentLevel);
 }
 
 function initLevel(levelIndex) {
     enemies = [];
     if (levelIndex > 0) {
-        coins += stories[currentStory].levels[levelIndex].startingCoins; // Добавляем начальные монеты уровня к оставшимся
+        coins += stories[currentStory].levels[levelIndex].startingCoins;
     } else {
-        coins = stories[currentStory].levels[levelIndex].startingCoins; // Начальные монеты для первого уровня
+        coins = stories[currentStory].levels[levelIndex].startingCoins;
     }
     updateBalanceDisplay();
     updateLivesDisplay();
@@ -255,7 +252,6 @@ function initLevel(levelIndex) {
 }
 
 function loadGame() {
-    // Загрузка первой истории по умолчанию, можно изменить для выбора истории
     initStory(0);
 }
 
