@@ -218,6 +218,8 @@ function gameLoop() {
 }
 
 
+
+
 function gameOver() {
     console.log('Game over');
     gameOverMessage.style.display = 'block';
