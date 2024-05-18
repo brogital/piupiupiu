@@ -1,0 +1,54 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h1 {
+    color: #333;
+}
+
+canvas {
+    border: 2px solid #333;
+    background-color: #fff;
+    margin-bottom: 20px;
+}
+
+#controls {
+    margin-top: 10px;
+}
+
+button {
+    padding: 10px 20px;
+    margin: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #555;
+}
+
+#info {
+    margin-top: 10px;
+    font-size: 18px;
+}
+
+#level-info, #tower-info, #phase-info {
+    margin-top: 10px;
+}
+
+#game-over {
+    font-size: 24px;
+    color: red;
+    margin-top: 20px;
+}

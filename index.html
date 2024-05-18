@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tower Defense Game</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Защитите Махатму Ганди</h1>
+    <canvas id="gameCanvas" width="800" height="600"></canvas>
+    <div id="controls">
+        <button onclick="selectTower('circle')">Башня круга (50 монет)</button>
+        <button onclick="selectTower('square')">Башня квадрата (50 монет)</button>
+        <button id="startLevelButton" onclick="startLevel()">Начать уровень</button>
+        <button id="upgradeTowerButton" onclick="upgradeTower()" style="display: none;">Улучшить башню</button>
+    </div>
+    <div id="info">
+        <span>Баланс: <span id="balance">100</span> монет</span>
+        <span>Жизни: <span id="lives">10</span></span>
+        <div id="level-info"></div>
+        <div id="tower-info"></div>
+    </div>
+    <button id="newGameButton" onclick="newGame()" style="display: none;">Новая игра</button>
+    <div id="game-over" style="display: none;">Чумбурчекнуки захватили Махатму!</div>
+    <div id="phase-info"></div>
+    <script src="tower.js"></script>
+    <script src="enemy.js"></script>
+    <script src="level.js"></script>
+    <script src="game.js"></script>
+</body>
+</html>
