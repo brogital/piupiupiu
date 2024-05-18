@@ -12,6 +12,11 @@ const gridSize = 20;
 let selectedTowerType = null;
 let gameRunning = false;
 let buildingPhase = true;
+let currentLevel = 0;
+let towers = [];
+let enemies = [];
+let lives = 10;
+let coins = 100;
 
 const background = new Image();
 background.src = 'images/background-neutral.png';
@@ -240,8 +245,17 @@ function spawnEnemies() {
     level.enemies.forEach((enemy, index) => {
         setTimeout(() => {
             enemies.push(new Enemy(path, enemy.health, enemy.speed));
-        }, index * 1000); // Spawning enemies with 1-second interval
+        }, index * 1000);
     });
+}
+
+function initLevel(level) {
+    enemies = [];
+    towers = [];
+    coins = levels[level].startingCoins;
+    updateBalanceDisplay();
+    updateLivesDisplay();
+    drawGame();
 }
 
 initLevel(currentLevel);
