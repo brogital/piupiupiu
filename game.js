@@ -14,13 +14,30 @@ let gameRunning = false;
 let buildingPhase = true;
 let currentStory = null;
 let currentLevel = 0;
-let towers = [];
+if (typeof towers === 'undefined') {
+    var towers = []; // Объявление towers, если не было объявлено ранее
+}
 let enemies = [];
 let lives = 10;
 let coins = 100;
 
 let background = new Image();
 let path = []; // Инициализация переменной path
+
+window.selectTower = function(type) {
+    console.log('Tower selected:', type);
+    selectedTowerType = type;
+};
+
+window.startLevel = function() {
+    console.log('Level started');
+    gameRunning = true;
+    buildingPhase = false;
+    startLevelButton.style.display = 'none';
+    upgradeTowerButton.style.display = 'none';
+    phaseInfo.textContent = '';
+    spawnEnemies();
+};
 
 canvas.addEventListener('mousemove', (event) => {
     if (selectedTowerType) {
@@ -55,21 +72,6 @@ canvas.addEventListener('click', (event) => {
         updateBalanceDisplay();
     }
 });
-
-function selectTower(type) {
-    console.log('Tower selected:', type);
-    selectedTowerType = type;
-}
-
-function startLevel() {
-    console.log('Level started');
-    gameRunning = true;
-    buildingPhase = false;
-    startLevelButton.style.display = 'none';
-    upgradeTowerButton.style.display = 'none';
-    phaseInfo.textContent = '';
-    spawnEnemies();
-}
 
 function upgradeTower() {
     if (selectedTower && coins >= selectedTower.level * 10) {
