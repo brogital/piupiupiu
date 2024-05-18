@@ -19,7 +19,8 @@ let enemies = [];
 let lives = 10;
 let coins = 100;
 
-let background = new Image(); // изменено с const на let
+let background = new Image();
+let path = []; // Инициализация переменной path
 
 canvas.addEventListener('mousemove', (event) => {
     if (selectedTowerType) {
@@ -174,7 +175,7 @@ function gameLoop() {
                 enemies.splice(index, 1);
                 coins += stories[currentStory].levels[currentLevel].rewardPerKill;
                 updateBalanceDisplay();
-            } else if (enemy.pathIndex >= enemy.path.length) {
+            } else if (enemy.pathIndex >= path.length) {
                 lives--;
                 updateLivesDisplay();
                 enemies.splice(index, 1);
@@ -249,8 +250,10 @@ function initStory(storyIndex) {
     currentLevel = 0;
     const story = stories[currentStory];
     alert(story.descriptionStart);
+    const map = getMapById(story.mapId);
     background = new Image(); // Создаем новый объект Image
-    background.src = getMapById(story.mapId).background;
+    background.src = map.background;
+    path = map.path; // Инициализируем путь карты
     initLevel(currentLevel);
 }
 
@@ -265,6 +268,7 @@ function initLevel(levelIndex) {
     updateLivesDisplay();
     drawGame();
 }
+
 
 function loadGame() {
     // Загрузка первой истории по умолчанию, можно изменить для выбора истории
