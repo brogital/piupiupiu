@@ -4,8 +4,8 @@ const stories = [
     {
         id: 0,
         mapId: 0,
-        descriptionStart: "Начало истории 1",
-        descriptionEnd: "Конец истории 1",
+        descriptionStart: "The journey begins in the Green Meadows.",
+        descriptionEnd: "Victory in the Green Meadows!",
         levels: [
             {
                 startingCoins: 100,
@@ -16,14 +16,24 @@ const stories = [
                     { id: 'flying', quantity: 5 }
                 ]
             },
+            {
+                startingCoins: 150,
+                towerCost: 60,
+                rewardPerKill: 15,
+                enemies: [
+                    { id: 'basic', quantity: 15 },
+                    { id: 'flying', quantity: 10 },
+                    { id: 'boss', quantity: 1 }
+                ]
+            },
             // Добавьте другие уровни здесь
         ]
     },
     {
         id: 1,
         mapId: 1,
-        descriptionStart: "Начало истории 2",
-        descriptionEnd: "Конец истории 2",
+        descriptionStart: "The challenge continues in the Desert Storm.",
+        descriptionEnd: "Victory in the Desert Storm!",
         levels: [
             {
                 startingCoins: 120,
@@ -32,6 +42,16 @@ const stories = [
                 enemies: [
                     { id: 'basic', quantity: 15 },
                     { id: 'flying', quantity: 10 }
+                ]
+            },
+            {
+                startingCoins: 180,
+                towerCost: 70,
+                rewardPerKill: 20,
+                enemies: [
+                    { id: 'basic', quantity: 20 },
+                    { id: 'flying', quantity: 15 },
+                    { id: 'boss', quantity: 1 }
                 ]
             },
             // Добавьте другие уровни здесь

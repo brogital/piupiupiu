@@ -14,7 +14,9 @@ class Tower {
     draw() {
         const img = new Image();
         img.src = `images/tower-${this.type}.png`;
-        ctx.drawImage(img, this.x, this.y, gridSize, gridSize);
+        img.onload = () => {
+            ctx.drawImage(img, this.x, this.y, gridSize, gridSize);
+        };
     }
 
     drawRange() {

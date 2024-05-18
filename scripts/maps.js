@@ -3,7 +3,7 @@
 const maps = [
     {
         id: 0,
-        background: 'map-green-meadows.png',
+        background: 'images/map-green-meadows.png',
         path: [
             { x: 0, y: 100 },
             { x: 100, y: 100 },
@@ -14,11 +14,12 @@ const maps = [
             { x: 600, y: 100 },
             { x: 700, y: 100 }
             // Добавьте точки пути
-        ]
+        ],
+        towers: ['circle', 'square']
     },
     {
         id: 1,
-        background: 'map-desert-storm.png',
+        background: 'images/map-desert-storm.png',
         path: [
             { x: 0, y: 150 },
             { x: 100, y: 150 },
@@ -29,7 +30,8 @@ const maps = [
             { x: 600, y: 150 },
             { x: 700, y: 150 }
             // Добавьте точки пути
-        ]
+        ],
+        towers: ['circle', 'square']
     },
     // Добавьте другие карты здесь
 ];

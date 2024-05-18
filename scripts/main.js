@@ -50,7 +50,7 @@ window.newGame = function() {
     newGameButton.style.display = 'none';
     gameOverMessage.style.display = 'none';
     startLevelButton.style.display = 'inline-block';
-    phaseInfo.textContent = 'Фаза строительства';
+    phaseInfo.textContent = 'Building phase';
     initStory(currentStory);
     gameLoop();
 }
@@ -65,10 +65,9 @@ function initStory(storyIndex) {
     currentStory = storyIndex;
     currentLevel = 0;
     const story = stories[currentStory];
-    alert(story.descriptionStart);
     const map = getMapById(story.mapId);
     background = new Image();
-    background.src = map.background;
+    background.src = `images/${map.background}`;
     path = map.path;
     initLevel(currentLevel);
 }

@@ -13,7 +13,9 @@ class Enemy {
     draw() {
         const img = new Image();
         img.src = `images/enemy-${this.type}.png`;
-        ctx.drawImage(img, this.x, this.y, gridSize, gridSize);
+        img.onload = () => {
+            ctx.drawImage(img, this.x, this.y, gridSize, gridSize);
+        };
     }
 
     move(path) {

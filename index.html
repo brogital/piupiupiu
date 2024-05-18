@@ -7,29 +7,30 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Защитите Махатму Ганди</h1>
+    <h1>Protect Mahatma Gandhi</h1>
     <div id="game-container">
         <canvas id="gameCanvas" width="800" height="600"></canvas>
     </div>
     <div id="controls">
-        <button onclick="selectTower('circle')">Башня круга (50 монет)</button>
-        <button onclick="selectTower('square')">Башня квадрата (50 монет)</button>
-        <button id="startLevelButton" onclick="startLevel()">Начать уровень</button>
-        <button id="upgradeTowerButton" onclick="upgradeTower()">Улучшить башню</button>
+        <button onclick="selectTower('circle')">Circle Tower (50 coins)</button>
+        <button onclick="selectTower('square')">Square Tower (50 coins)</button>
+        <button id="startLevelButton" onclick="startLevel()">Start Level</button>
+        <button id="upgradeTowerButton" onclick="upgradeTower()">Upgrade Tower</button>
     </div>
     <div id="info">
-        Баланс: <span id="balance">100</span> Жизни: <span id="lives">10</span>
+        Balance: <span id="balance">100</span> Lives: <span id="lives">10</span>
     </div>
     <div id="phase-info"></div>
     <div id="game-over" style="display: none;">
-        Чумбурчекнуки захватили Махатму! 
-        <button id="newGameButton" onclick="newGame()">Новая игра</button>
+        Chumburcheknuks captured Mahatma! 
+        <button id="newGameButton" onclick="newGame()">New Game</button>
     </div>
-    <script src="maps.js"></script>
-    <script src="stories.js"></script>
-    <script src="enemies.js"></script>
-    <script src="towers.js"></script>
-    <script src="main.js"></script>
-    <script src="game.js"></script>
+    <script src="scripts/maps.js"></script>
+    <script src="scripts/stories.js"></script>
+    <script src="scripts/enemies.js"></script>
+    <script src="scripts/towers.js"></script>
+    <script src="scripts/utils.js"></script>
+    <script src="scripts/main.js"></script>
+    <script src="scripts/game.js"></script>
 </body>
 </html>

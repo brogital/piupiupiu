@@ -140,14 +140,14 @@ function gameLoop() {
             buildingPhase = true;
             startLevelButton.style.display = 'inline-block';
             upgradeTowerButton.style.display = 'none';
-            phaseInfo.textContent = 'Фаза строительства';
+            phaseInfo.textContent = 'Building phase';
             currentLevel++;
             initLevel(currentLevel);
         } else if (enemies.length === 0 && currentLevel === stories[currentStory].levels.length - 1) {
             gameRunning = false;
             buildingPhase = true;
             startLevelButton.style.display = 'inline-block';
-            phaseInfo.textContent = 'Вы победили! Начните новую игру!';
+            phaseInfo.textContent = 'You won! Start a new game!';
         }
     } else {
         towers.forEach(tower => tower.drawRange());
@@ -178,7 +178,6 @@ function initStory(storyIndex) {
     currentStory = storyIndex;
     currentLevel = 0;
     const story = stories[currentStory];
-    alert(story.descriptionStart);
     const map = getMapById(story.mapId);
     background = new Image();
     background.src = `images/${map.background}`;
