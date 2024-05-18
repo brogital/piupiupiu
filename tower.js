@@ -17,7 +17,27 @@ class Tower {
         this.range = 100;
         this.speed = 1;
         this.upgrades = this.generateUpgrades();
+        this.projectiles = [];
     }
+
+    attack(enemies) {
+        enemies.forEach(enemy => {
+            if (Math.hypot(this.x - enemy.x, this.y - enemy.y) <= this.range) {
+                const projectile = new Projectile(this.x, this.y, enemy, this.damage, 5);
+                this.projectiles.push(projectile);
+            }
+        });
+
+        this.projectiles = this.projectiles.filter(projectile => {
+            const reached = projectile.move();
+            if (!reached) {
+                projectile.draw();
+            }
+            return !reached;
+        });
+    }
+}
+
 
     generateUpgrades() {
         let upgrades = [];
@@ -86,3 +106,38 @@ class Tower {
 }
 
 let selectedTower = null;
+
+
+
+
+class Projectile {
+    constructor(x, y, target, damage, speed) {
+        this.x = x;
+        this.y = y;
+        this.target = target;
+        this.damage = damage;
+        this.speed = speed;
+    }
+
+    move() {
+        const dx = this.target.x - this.x;
+        const dy = this.target.y - this.y;
+        const distance = Math.hypot(dx, dy);
+
+        if (distance < this.speed) {
+            this.target.health -= this.damage;
+            return true; // Снаряд достиг цели
+        } else {
+            this.x += (dx / distance) * this.speed;
+            this.y += (dy / distance) * this.speed;
+            return false; // Снаряд еще в пути
+        }
+    }
+
+    draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, 5, 0, Math.PI * 2);
+        ctx.fillStyle = 'black';
+        ctx.fill();
+    }
+}

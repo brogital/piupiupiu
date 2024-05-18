@@ -217,6 +217,7 @@ function gameLoop() {
     requestAnimationFrame(gameLoop);
 }
 
+
 function gameOver() {
     console.log('Game over');
     gameOverMessage.style.display = 'block';
@@ -251,12 +252,13 @@ function spawnEnemies() {
 
 function initLevel(level) {
     enemies = [];
-    towers = [];
     coins = levels[level].startingCoins;
     updateBalanceDisplay();
     updateLivesDisplay();
     drawGame();
 }
+
+
 
 initLevel(currentLevel);
 gameLoop();

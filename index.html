@@ -8,6 +8,10 @@
 </head>
 <body>
     <h1>Защитите Махатму Ганди</h1>
+    <div id="info">
+        <span>💰 Баланс: <span id="balance">100</span> монет</span>
+        <span>❤️ Жизни: <span id="lives">10</span></span>
+    </div>
     <canvas id="gameCanvas" width="800" height="600"></canvas>
     <div id="controls">
         <button onclick="selectTower('circle')">Башня круга (50 монет)</button>
@@ -15,12 +19,7 @@
         <button id="startLevelButton" onclick="startLevel()">Начать уровень</button>
         <button id="upgradeTowerButton" onclick="upgradeTower()" style="display: none;">Улучшить башню</button>
     </div>
-    <div id="info">
-        <span>Баланс: <span id="balance">100</span> монет</span>
-        <span>Жизни: <span id="lives">10</span></span>
-        <div id="level-info"></div>
-        <div id="tower-info"></div>
-    </div>
+    <div id="tower-info"></div>
     <button id="newGameButton" onclick="newGame()" style="display: none;">Новая игра</button>
     <div id="game-over" style="display: none;">Чумбурчекнуки захватили Махатму!</div>
     <div id="phase-info"></div>
