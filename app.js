@@ -48,6 +48,7 @@
   }
 
   function render(board = engine.board, options = {}) {
+    const marks = { pink: "●", cyan: "◆", lime: "+", yellow: "★", violet: "▲", coral: "⬢" };
     boardEl.replaceChildren();
     board.forEach((piece, index) => {
       const tile = document.createElement("button");
@@ -61,6 +62,11 @@
       if (options.invalid?.includes(index)) tile.classList.add("invalid");
       const gem = document.createElement("span");
       gem.className = `gem ${piece.color}${piece.special ? ` special-${piece.special}` : ""}`;
+      gem.setAttribute("aria-hidden", "true");
+      const mark = document.createElement("span");
+      mark.className = "gem-mark";
+      mark.textContent = marks[piece.color];
+      gem.append(mark);
       tile.append(gem);
       boardEl.append(tile);
     });
@@ -88,14 +94,47 @@
     comboEl.classList.add("show");
   }
 
+  async function animateSwap(cells, invalid = false) {
+    const [a, b] = cells;
+    const tileA = boardEl.children[a];
+    const tileB = boardEl.children[b];
+    if (!tileA || !tileB) return;
+    const gemA = tileA.querySelector(".gem");
+    const gemB = tileB.querySelector(".gem");
+    const rectA = tileA.getBoundingClientRect();
+    const rectB = tileB.getBoundingClientRect();
+    const dx = rectB.left - rectA.left;
+    const dy = rectB.top - rectA.top;
+    const timing = { duration: invalid ? 330 : 220, easing: invalid ? "ease-in-out" : "cubic-bezier(.2,.8,.25,1)", fill: "forwards" };
+    const keyframesA = invalid
+      ? [{ transform: "translate(0,0) scale(.94)" }, { transform: `translate(${dx * .42}px,${dy * .42}px) scale(1.08)`, offset: .45 }, { transform: "translate(0,0) scale(.94)" }]
+      : [{ transform: "translate(0,0) scale(.94)", zIndex: 3 }, { transform: `translate(${dx}px,${dy}px) scale(1.08)`, zIndex: 3 }];
+    const keyframesB = invalid
+      ? [{ transform: "translate(0,0) scale(.94)" }, { transform: `translate(${-dx * .42}px,${-dy * .42}px) scale(1.08)`, offset: .45 }, { transform: "translate(0,0) scale(.94)" }]
+      : [{ transform: "translate(0,0) scale(.94)", zIndex: 2 }, { transform: `translate(${-dx}px,${-dy}px) scale(1.08)`, zIndex: 2 }];
+    await Promise.all([gemA.animate(keyframesA, timing).finished, gemB.animate(keyframesB, timing).finished]);
+  }
+
+  function animateFall() {
+    boardEl.querySelectorAll(".gem").forEach((gem, index) => {
+      const row = Math.floor(index / 8);
+      gem.animate(
+        [{ transform: "translateY(-55%) scale(.72)", opacity: .25 }, { transform: "translateY(7%) scale(1.03)", opacity: 1, offset: .78 }, { transform: "translateY(0) scale(.94)", opacity: 1 }],
+        { duration: 260, delay: row * 8, easing: "cubic-bezier(.18,.75,.25,1)" }
+      );
+    });
+  }
+
   async function playStages(result) {
     setBusy(true);
     for (const stage of result.stages) {
       if (stage.type === "swap") {
+        await animateSwap(stage.cells);
         render(stage.board);
         sound(310, .05, "triangle");
-        await sleep(135);
+        await sleep(35);
       } else if (stage.type === "invalid") {
+        await animateSwap(stage.cells, true);
         render(stage.board, { invalid: stage.cells });
         sound(125, .12, "sawtooth", .02);
         statusEl.textContent = "Этот ход не собирает ряд";
@@ -108,7 +147,8 @@
         await sleep(280);
       } else if (stage.type === "fall") {
         render(stage.board);
-        await sleep(180);
+        animateFall();
+        await sleep(285);
       } else if (stage.type === "shuffle") {
         statusEl.textContent = "Поле само перемешалось — ходов не осталось";
         render(stage.board);
