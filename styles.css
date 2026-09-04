@@ -334,6 +334,89 @@ h1 { margin-bottom: 4px; font-size: clamp(25px, 6vw, 38px); line-height: 1.05; l
 @keyframes novaSpin { to { filter: hue-rotate(360deg); } }
 @keyframes resultFloat { 50% { transform: translateY(-6px) rotate(5deg); } }
 
+/* Battle layer */
+.chapter-heading { display: flex; align-items: flex-end; justify-content: space-between; gap: 18px; margin-bottom: 14px; }
+.chapter-heading h1 { margin: 0; }
+.turn-counter { flex: 0 0 auto; padding: 8px 12px; border: 1px solid var(--panel-line); border-radius: 999px; color: var(--muted); font-size: 11px; font-weight: 900; text-transform: uppercase; background: var(--panel); }
+.turn-counter b { margin-left: 5px; color: var(--ink); font-size: 16px; }
+
+.enemy-card, .player-vitals { position: relative; display: flex; align-items: center; border: 1px solid var(--panel-line); background: linear-gradient(145deg, rgba(52,38,91,.92), rgba(24,17,54,.92)); box-shadow: 0 14px 38px rgba(0,0,0,.24), inset 0 1px rgba(255,255,255,.06); }
+.enemy-card { gap: 12px; margin-bottom: 8px; padding: 10px; border-radius: 21px; overflow: hidden; }
+.enemy-avatar { display: grid; place-items: center; flex: 0 0 54px; width: 54px; height: 54px; border-radius: 17px; color: #fff0c5; font-size: 29px; background: radial-gradient(circle at 40% 36%, #db75ff, #60209c 45%, #170d35 72%); box-shadow: inset 0 0 0 2px rgba(255,255,255,.12), 0 0 22px rgba(167,68,255,.28); }
+.enemy-avatar span { animation: enemyPulse 2.5s ease-in-out infinite; }
+.enemy-info { flex: 1; min-width: 0; }
+.enemy-title { display: flex; align-items: flex-end; justify-content: space-between; gap: 8px; }
+.enemy-title span, .enemy-title strong { display: block; }
+.enemy-title span { color: #bfafd8; font-size: 9px; font-weight: 900; text-transform: uppercase; letter-spacing: .09em; }
+.enemy-title strong { overflow: hidden; font-size: 14px; white-space: nowrap; text-overflow: ellipsis; }
+.enemy-title > b { flex: 0 0 auto; color: #ffd9e8; font-size: 12px; }
+.enemy-info > p { margin: 5px 0 0; color: #a99fc1; font-size: 10px; }
+.health-track { height: 7px; overflow: hidden; border-radius: 99px; background: rgba(0,0,0,.38); box-shadow: inset 0 1px 2px rgba(0,0,0,.4); }
+.health-track i { display: block; width: 100%; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #54e676, #b8f264); transition: width .35s ease; }
+.enemy-health { margin-top: 5px; }
+.enemy-health i { background: linear-gradient(90deg, #ff356f, #ff7b6b); }
+.intent { display: grid; place-items: center; flex: 0 0 64px; min-height: 55px; padding: 6px; border-left: 1px solid rgba(255,255,255,.08); text-align: center; }
+.intent span { color: #b9aecf; font-size: 8px; font-weight: 900; line-height: 1.1; text-transform: uppercase; }
+.intent strong { color: #ff8090; font-size: 24px; line-height: 1; }
+
+.player-vitals { gap: 10px; margin-bottom: 10px; padding: 8px 12px; border-radius: 16px; }
+.player-vitals > div:first-child { display: flex; align-items: baseline; gap: 7px; }
+.player-vitals > div:first-child span { color: var(--muted); font-size: 9px; font-weight: 900; text-transform: uppercase; }
+.player-vitals > div:first-child strong { font-size: 12px; }
+.player-vitals > .health-track { flex: 1; }
+.shield-value { display: flex; align-items: center; gap: 4px; min-width: 51px; color: #938ba9; }
+.shield-value span { font-size: 9px; font-weight: 900; text-transform: uppercase; }
+.shield-value strong { font-size: 15px; }
+.shield-value.active { color: var(--cyan); text-shadow: 0 0 12px rgba(65,220,255,.38); }
+
+.tile.cursed { border-color: #e59aff; background: #2c123d; box-shadow: inset 0 0 0 2px rgba(220,106,255,.72), 0 0 10px rgba(213,65,255,.28); }
+.tile.cursed::before { content: "◈"; position: absolute; z-index: 3; top: 1px; right: 3px; color: #ffd2ff; font-size: clamp(8px, 2vw, 13px); text-shadow: 0 0 5px #cf48ff; }
+.tile.cursed .gem { filter: saturate(1.5) contrast(1.18) brightness(.82); }
+.gem.pink .gem-mark { color: #fff7ed; font-size: clamp(17px, 4.5vw, 31px); text-shadow: 0 2px 3px #65002f, 0 0 8px rgba(255,255,255,.45); }
+
+.party { display: grid; gap: 7px; margin: 12px 0 10px; }
+.hero-card { display: flex; align-items: center; gap: 10px; width: 100%; min-width: 0; border: 1px solid var(--panel-line); border-radius: 15px; padding: 7px 9px; color: var(--ink); text-align: left; background: rgba(31,24,67,.78); box-shadow: inset 0 1px rgba(255,255,255,.05); transition: transform .15s ease, border-color .15s ease, filter .15s ease; }
+.hero-card:not(:disabled) { cursor: pointer; }
+.hero-card:disabled { opacity: .72; }
+.hero-portrait { display: grid; place-items: center; flex: 0 0 38px; width: 38px; height: 38px; border-radius: 12px; color: white; font-size: 17px; font-weight: 900; background: #5a426f; }
+.reynar .hero-portrait { background: linear-gradient(145deg, #ff805f, #af251d); }
+.elli .hero-portrait { background: linear-gradient(145deg, #52e6ff, #1167aa); }
+.saira .hero-portrait { background: linear-gradient(145deg, #cf72ff, #5921b5); }
+.hero-copy { flex: 1; min-width: 0; }
+.hero-copy b, .hero-copy small { display: block; }
+.hero-copy b { font-size: 13px; }
+.hero-copy small { overflow: hidden; color: #aaa2bf; font-size: 9px; white-space: nowrap; text-overflow: ellipsis; }
+.hero-copy > i { display: block; height: 4px; margin-top: 5px; overflow: hidden; border-radius: 9px; background: rgba(0,0,0,.38); }
+.hero-copy > i em { display: block; width: 0; height: 100%; border-radius: inherit; transition: width .3s ease; }
+.reynar em { background: var(--coral); }
+.elli em { background: var(--cyan); }
+.saira em { background: var(--violet); }
+.hero-card > strong { flex: 0 0 34px; color: #aaa2bf; font-size: 10px; text-align: right; }
+.hero-card.ready { border-color: rgba(255,229,112,.7); opacity: 1; background: linear-gradient(100deg, rgba(69,50,112,.96), rgba(44,32,78,.96)); animation: readyGlow 1.35s ease-in-out infinite; }
+.hero-card.ready > strong { color: #ffe66f; }
+.hero-card.ready::after { content: "ГОТОВО"; color: #ffe66f; font-size: 8px; font-weight: 900; letter-spacing: .07em; }
+.hero-card.cast { animation: heroCast .5s ease; }
+
+.battle-float { position: absolute; z-index: 12; top: 35%; right: 14%; pointer-events: none; color: #fff; font-size: 20px; text-shadow: 0 2px 8px rgba(0,0,0,.65); animation: battleFloat .9s ease-out forwards; }
+.battle-float.damage { color: #ff8294; }
+.battle-float.heal { color: #aef16b; }
+.battle-float.shield { color: #6ee8ff; font-size: 15px; }
+.enemy-card.hit, .player-vitals.hit { animation: battleHit .32s ease; }
+.enemy-card.acting .enemy-avatar { animation: enemyAct .48s ease; }
+
+.rule-icon.skull { color: white; background: #ef176e; }
+.rule-icon.mana { color: #09243a; background: var(--cyan); }
+.rule-icon.curse { color: white; background: var(--violet); }
+.storm-sigil { display: grid; place-items: center; width: 84px; height: 84px; margin: -5px auto 21px; border-radius: 24px; color: #ffdc89; font-size: 45px; transform: rotate(8deg); background: radial-gradient(circle at 40% 35%, #bc65f4, #522092 62%, #211044); box-shadow: 0 0 45px rgba(168,77,255,.4), inset 0 0 0 2px rgba(255,255,255,.12); }
+.intro-card blockquote { margin: -8px 0 23px; padding: 11px 14px; border-left: 3px solid var(--violet); border-radius: 0 12px 12px 0; color: #d8c9e8; font-size: 12px; font-style: italic; line-height: 1.45; text-align: left; background: rgba(0,0,0,.15); }
+
+@keyframes enemyPulse { 50% { transform: scale(1.12) rotate(10deg); filter: brightness(1.25); } }
+@keyframes readyGlow { 50% { box-shadow: inset 0 0 0 1px rgba(255,230,110,.35), 0 0 18px rgba(255,218,91,.14); } }
+@keyframes heroCast { 38% { transform: translateX(7px) scale(1.02); filter: brightness(1.35); } }
+@keyframes battleFloat { 0% { opacity: 0; transform: translateY(8px) scale(.7); } 18% { opacity: 1; transform: translateY(0) scale(1.1); } 100% { opacity: 0; transform: translateY(-32px) scale(.92); } }
+@keyframes battleHit { 30% { transform: translateX(-5px); filter: brightness(1.55); } 60% { transform: translateX(4px); } }
+@keyframes enemyAct { 45% { transform: scale(1.18) translateY(3px); filter: brightness(1.5); } }
+
 @media (min-width: 700px) {
   .game-shell { padding-top: 28px; }
   .board-wrap { padding: 11px; }
@@ -350,6 +433,15 @@ h1 { margin-bottom: 4px; font-size: clamp(25px, 6vw, 38px); line-height: 1.05; l
   .board { gap: 3px; padding: 4px; }
   .tile { border-radius: 9px; }
   .modal-card { padding: 27px 23px; }
+  .chapter-heading { align-items: center; }
+  .chapter-heading h1 { font-size: 26px; }
+  .enemy-card { gap: 8px; padding: 8px; }
+  .enemy-avatar { flex-basis: 46px; width: 46px; height: 46px; }
+  .enemy-title strong { font-size: 12px; }
+  .enemy-info > p { max-width: 150px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+  .intent { flex-basis: 54px; }
+  .player-vitals { padding: 7px 9px; }
+  .hero-card { gap: 7px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

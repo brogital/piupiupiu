@@ -164,7 +164,7 @@
       const points = clear.size * 60 * combo + creators.size * 180;
       this.score += points;
       this.collected += targetCount;
-      stages.push({ type: "clear", board: boardBefore, cells: Array.from(clear), combo, points, collected: targetCount });
+      stages.push({ type: "clear", board: boardBefore, cells: Array.from(clear), created: Array.from(creators.keys()), combo, points, collected: targetCount });
       clear.forEach(index => { this.board[index] = null; });
       creators.forEach((piece, index) => { this.board[index] = piece; });
 
@@ -232,6 +232,28 @@
         shuffled = true;
       }
       return { valid: true, stages, shuffled, state: this.snapshot(), won: this.collected >= this.goalAmount, over: this.moves <= 0 };
+    }
+
+    activateColorClear(color) {
+      const stages = [];
+      const clear = new Set();
+      this.board.forEach((piece, index) => { if (piece && piece.color === color) clear.add(index); });
+      if (!clear.size) return { valid: false, stages };
+      this.clearAndCollapse(clear, new Map(), 1, stages);
+      let groups = this.findGroups();
+      let combo = 2;
+      while (groups.length) {
+        const matched = new Set(groups.flatMap(group => group.cells));
+        const creators = this.chooseCreators(groups);
+        this.clearAndCollapse(matched, creators, combo, stages);
+        groups = this.findGroups();
+        combo++;
+      }
+      if (!this.findHint()) {
+        this.shuffle();
+        stages.push({ type: "shuffle", board: this.cloneBoard() });
+      }
+      return { valid: true, stages, state: this.snapshot() };
     }
 
     shuffle() {
