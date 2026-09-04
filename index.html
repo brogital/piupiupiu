@@ -4,104 +4,71 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="theme-color" content="#100b2d" />
-    <meta name="description" content="Осколки Бури — тактическая браузерная match-3 RPG." />
-    <title>Осколки Бури — пролог</title>
+    <meta name="description" content="Осколки Бури — тактическая браузерная match-3 RPG с кампанией и прокачкой героев." />
+    <title>Осколки Бури</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="styles.css?v=3" />
+    <link rel="stylesheet" href="styles.css?v=4" />
   </head>
   <body>
     <div class="stars" aria-hidden="true"></div>
-    <main class="game-shell">
+    <main class="game-shell world-shell">
       <header class="topbar">
-        <a class="brand" href="./" aria-label="Осколки Бури">
-          <span class="brand-mark">ОБ</span>
-          <span><strong>ОСКОЛКИ</strong><small>БУРИ</small></span>
-        </a>
-        <div class="top-actions">
-          <button class="icon-button" id="soundButton" type="button" aria-label="Выключить звук" title="Звук">♪</button>
-          <button class="icon-button" id="restartButton" type="button" aria-label="Начать заново" title="Начать заново">↻</button>
-        </div>
+        <button class="brand brand-button" id="mapButton" type="button" aria-label="Открыть карту"><span class="brand-mark">ОБ</span><span><strong>ОСКОЛКИ</strong><small>БУРИ</small></span></button>
+        <div class="meta-wallet"><span>Осколки</span><strong>✦ <b id="shardWallet">0</b></strong></div>
+        <div class="top-actions"><button class="nav-button" id="rosterButton" type="button">Отряд</button><button class="icon-button" id="soundButton" type="button" aria-label="Выключить звук">♪</button><button class="icon-button" id="restartButton" type="button" aria-label="Сбросить прогресс">↻</button></div>
       </header>
 
-      <section class="chapter-heading">
-        <div><p class="eyebrow">Пролог · Сломанный маяк</p><h1>Пожиратель света</h1></div>
-        <span class="turn-counter">Ход <b id="turnValue">1</b></span>
-      </section>
-
-      <section class="enemy-card" id="enemyCard" aria-label="Противник">
-        <div class="enemy-avatar" aria-hidden="true"><span>◈</span></div>
-        <div class="enemy-info">
-          <div class="enemy-title"><div><span>Древний зверь</span><strong>Пожиратель маяков</strong></div><b id="enemyHpText">340 / 340</b></div>
-          <div class="health-track enemy-health"><i id="enemyHpFill"></i></div>
-          <p id="enemyState">Пробуждается в пепле старого маяка</p>
+      <section class="screen map-screen active" id="mapScreen">
+        <div class="campaign-hero">
+          <div class="campaign-copy"><p class="eyebrow">Глава I · Пепельный архипелаг</p><h1>Путь к мёртвому маяку</h1><p>Буря разрывает острова. Три резонатора идут на свет, который не должен был проснуться.</p><div class="campaign-progress"><i id="campaignFill"></i></div><small id="campaignText">Открыт 1 из 5 узлов</small></div>
+          <div class="party-art" aria-label="Рейнар, Элли и Сайра"><img src="assets/reynar.webp" alt="Рейнар" /><img src="assets/elli.webp" alt="Элли" /><img src="assets/saira.webp" alt="Сайра" /></div>
         </div>
-        <div class="intent" id="enemyIntent"><span>Следующий удар</span><strong>10</strong></div>
-      </section>
-
-      <section class="player-vitals" aria-label="Состояние отряда">
-        <div><span>Отряд</span><strong id="playerHpText">150 / 150</strong></div>
-        <div class="health-track"><i id="playerHpFill"></i></div>
-        <div class="shield-value" id="shieldValue"><span>Щит</span><strong>0</strong></div>
-      </section>
-
-      <section class="play-area">
-        <div class="combo-pill" id="comboPill" aria-live="polite">Комбо ×2</div>
-        <div class="board-wrap">
-          <div id="board" class="board" role="grid" aria-label="Игровое поле восемь на восемь"></div>
-          <div class="board-lock" id="boardLock" aria-hidden="true"></div>
-        </div>
-        <p class="status" id="statusText" aria-live="polite">Поменяй соседние ядра местами</p>
-        <section class="party" aria-label="Герои и способности">
-          <button class="hero-card reynar" data-skill="reynar" type="button" disabled>
-            <span class="hero-portrait">Р</span><span class="hero-copy"><b>Рейнар</b><small>Рассекающий удар · 10</small><i><em id="reynarMana"></em></i></span><strong id="reynarManaText">0/10</strong>
-          </button>
-          <button class="hero-card elli" data-skill="elli" type="button" disabled>
-            <span class="hero-portrait">Э</span><span class="hero-copy"><b>Элли</b><small>Якорный щит · 9</small><i><em id="elliMana"></em></i></span><strong id="elliManaText">0/9</strong>
-          </button>
-          <button class="hero-card saira" data-skill="saira" type="button" disabled>
-            <span class="hero-portrait">С</span><span class="hero-copy"><b>Сайра</b><small>Разрыв резонанса · 12</small><i><em id="sairaMana"></em></i></span><strong id="sairaManaText">0/12</strong>
-          </button>
-        </section>
-        <div class="helper-actions">
-          <button class="soft-button" id="hintButton" type="button"><span>✦</span> Подсказка</button>
+        <div class="chapter-map" id="chapterMap" aria-label="Карта главы">
+          <div class="route-line" aria-hidden="true"></div>
+          <button class="map-node" data-level="0" type="button"><span class="node-icon">Ⅰ</span><span><b>Пепельный спуск</b><small>Стая осколочников</small></span><em>+4 ✦</em></button>
+          <button class="map-node" data-level="1" type="button"><span class="node-icon">Ⅱ</span><span><b>Разорванный мост</b><small>Ветер режет поле</small></span><em>+5 ✦</em></button>
+          <button class="map-node elite" data-level="2" type="button"><span class="node-icon">Ⅲ</span><span><b>Страж Якоря</b><small>Элитный противник</small></span><em>+7 ✦</em></button>
+          <button class="map-node" data-level="3" type="button"><span class="node-icon">Ⅳ</span><span><b>Сердце механизма</b><small>Порча начинает бой</small></span><em>+8 ✦</em></button>
+          <button class="map-node boss" data-level="4" type="button"><span class="node-icon">☠</span><span><b>Сломанный маяк</b><small>Пожиратель света</small></span><em>+12 ✦</em></button>
         </div>
       </section>
 
-      <details class="rules">
-        <summary>Что делают знаки на поле?</summary>
-        <div class="rules-grid">
-          <p><span class="rule-icon skull">☠</span><b>Черепа</b><small>Наносят прямой урон</small></p>
-          <p><span class="rule-icon mana">◆</span><b>Резонансы</b><small>Заряжают героев</small></p>
-          <p><span class="rule-icon curse">◈</span><b>Порча</b><small>Усиливает атаку врага</small></p>
+      <section class="screen roster-screen" id="rosterScreen">
+        <div class="section-heading"><div><p class="eyebrow">Живые резонаторы</p><h1>Отряд</h1></div><p>Улучшения навсегда усиливают способности во всех боях.</p></div>
+        <div class="roster-grid">
+          <article class="roster-card reynar"><img src="assets/reynar.webp" alt="Рейнар" /><div class="roster-gradient"></div><div class="roster-content"><span class="role">Клинок · Огонь</span><h2>Рейнар</h2><p>Рассекающий удар наносит чистый урон и с каждым рангом становится яростнее.</p><dl><div><dt>Ранг</dt><dd id="reynarRank">1</dd></div><div><dt>Урон</dt><dd id="reynarPower">78</dd></div></dl><button class="upgrade-button" data-upgrade="reynar" type="button">Усилить · <b>8 ✦</b></button></div></article>
+          <article class="roster-card elli"><img src="assets/elli.webp" alt="Элли" /><div class="roster-gradient"></div><div class="roster-content"><span class="role">Якорь · Вода</span><h2>Элли</h2><p>Ставит щит на весь отряд. Новый ранг увеличивает прочность барьера.</p><dl><div><dt>Ранг</dt><dd id="elliRank">1</dd></div><div><dt>Щит</dt><dd id="elliPower">34</dd></div></dl><button class="upgrade-button" data-upgrade="elli" type="button">Усилить · <b>8 ✦</b></button></div></article>
+          <article class="roster-card saira"><img src="assets/saira.webp" alt="Сайра" /><div class="roster-gradient"></div><div class="roster-content"><span class="role">Ткач · Бездна</span><h2>Сайра</h2><p>Разрывает доминирующую стихию. Новый ранг добавляет урон за каждый очищенный знак.</p><dl><div><dt>Ранг</dt><dd id="sairaRank">1</dd></div><div><dt>Урон</dt><dd id="sairaPower">2/знак</dd></div></dl><button class="upgrade-button" data-upgrade="saira" type="button">Усилить · <b>8 ✦</b></button></div></article>
         </div>
-      </details>
+      </section>
+
+      <section class="screen battle-screen" id="battleScreen">
+        <div class="battle-layout">
+          <div class="battle-main">
+            <section class="chapter-heading"><div><p class="eyebrow" id="battleChapter">Узел I</p><h1 id="battleTitle">Пепельный спуск</h1></div><span class="turn-counter">Ход <b id="turnValue">1</b></span></section>
+            <section class="enemy-card" id="enemyCard" aria-label="Противник"><div class="enemy-avatar"><img id="enemyPortrait" src="assets/devourer.webp" alt="Противник" /></div><div class="enemy-info"><div class="enemy-title"><div><span id="enemyClass">Порождение бури</span><strong id="enemyName">Осколочник</strong></div><b id="enemyHpText">180 / 180</b></div><div class="health-track enemy-health"><i id="enemyHpFill"></i></div><p id="enemyState">Кружит над разрушенной дорогой</p></div><div class="intent" id="enemyIntent"><span>Следующий удар</span><strong>7</strong></div></section>
+            <section class="player-vitals"><div><span>Отряд</span><strong id="playerHpText">150 / 150</strong></div><div class="health-track"><i id="playerHpFill"></i></div><div class="shield-value" id="shieldValue"><span>Щит</span><strong>0</strong></div></section>
+            <section class="play-area"><div class="combo-pill" id="comboPill">Резонанс ×2</div><div class="board-wrap"><div id="board" class="board" role="grid" aria-label="Игровое поле восемь на восемь"></div><div class="board-lock active" id="boardLock"></div></div><p class="status" id="statusText">Соедини стихийные руны</p></section>
+          </div>
+          <aside class="battle-sidebar">
+            <div class="sidebar-heading"><span>Отряд</span><button class="soft-button" id="hintButton" type="button">✦ Подсказка</button></div>
+            <section class="party" aria-label="Герои и способности">
+              <button class="hero-card reynar" data-skill="reynar" type="button" disabled><span class="hero-portrait"><img src="assets/reynar.webp" alt="" /></span><span class="hero-copy"><b>Рейнар <em class="battle-rank" id="reynarBattleRank">I</em></b><small>Рассекающий удар · 10</small><i><em id="reynarMana"></em></i></span><strong id="reynarManaText">0/10</strong></button>
+              <button class="hero-card elli" data-skill="elli" type="button" disabled><span class="hero-portrait"><img src="assets/elli.webp" alt="" /></span><span class="hero-copy"><b>Элли <em class="battle-rank" id="elliBattleRank">I</em></b><small>Якорный щит · 9</small><i><em id="elliMana"></em></i></span><strong id="elliManaText">0/9</strong></button>
+              <button class="hero-card saira" data-skill="saira" type="button" disabled><span class="hero-portrait"><img src="assets/saira.webp" alt="" /></span><span class="hero-copy"><b>Сайра <em class="battle-rank" id="sairaBattleRank">I</em></b><small>Разрыв резонанса · 12</small><i><em id="sairaMana"></em></i></span><strong id="sairaManaText">0/12</strong></button>
+            </section>
+            <div class="element-legend"><p><i class="ember">♨</i><span><b>Огонь</b><small>Мана Рейнара</small></span></p><p><i class="tide">≋</i><span><b>Вода</b><small>Мана Элли</small></span></p><p><i class="wild">❧</i><span><b>Жизнь</b><small>Лечит отряд</small></span></p><p><i class="light">☀</i><span><b>Свет</b><small>Даёт осколки</small></span></p><p><i class="void">✦</i><span><b>Бездна</b><small>Мана Сайры</small></span></p><p><i class="skull">☠</i><span><b>Череп</b><small>Прямой урон</small></span></p></div>
+            <button class="retreat-button" id="retreatButton" type="button">Отступить на карту</button>
+          </aside>
+        </div>
+      </section>
     </main>
 
-    <div class="modal-backdrop visible" id="startModal" role="dialog" aria-modal="true" aria-labelledby="startTitle">
-      <section class="modal-card intro-card">
-        <div class="storm-sigil" aria-hidden="true">◈</div>
-        <p class="eyebrow">Осколки Бури · Пролог</p>
-        <h2 id="startTitle">Сердце под пеплом</h2>
-        <p>Старый маяк замолчал три дня назад. Под его руинами Рейнар находит живой осколок — и существо, которое пришло его поглотить.</p>
-        <blockquote>«Цвета — это не камни. Это нити мира. Дёрни за нужную.» — Сайра</blockquote>
-        <button class="primary-button" id="startButton" type="button">Вступить в бой <span>→</span></button>
-      </section>
-    </div>
-
-    <div class="modal-backdrop" id="resultModal" role="dialog" aria-modal="true" aria-labelledby="resultTitle">
-      <section class="modal-card result-card">
-        <div class="result-burst" id="resultIcon" aria-hidden="true">✦</div>
-        <p class="eyebrow" id="resultKicker">Бой завершён</p>
-        <h2 id="resultTitle">Маяк снова горит</h2>
-        <p id="resultCopy">Зверь отступил, но осколок заговорил голосом из погибшего мира.</p>
-        <div class="result-score"><span>Осколки знания</span><strong id="resultScore">0</strong></div>
-        <button class="primary-button" id="playAgainButton" type="button">Сразиться снова <span>↻</span></button>
-      </section>
-    </div>
-
-    <script src="engine.js?v=3"></script>
-    <script src="battle.js?v=3"></script>
+    <div class="modal-backdrop" id="startModal" role="dialog" aria-modal="true" aria-labelledby="startTitle"><section class="modal-card intro-card"><div class="story-number" id="storyNumber">Ⅰ</div><p class="eyebrow" id="storyKicker">Глава I</p><h2 id="startTitle">Пепельный спуск</h2><p id="storyCopy">Первый путь к маяку усеян живыми обломками.</p><div class="encounter-stats"><span>Сила врага <b id="previewHp">180</b></span><span>Награда <b id="previewReward">4 ✦</b></span></div><button class="primary-button" id="startButton" type="button">Начать бой <span>→</span></button></section></div>
+    <div class="modal-backdrop" id="resultModal" role="dialog" aria-modal="true" aria-labelledby="resultTitle"><section class="modal-card result-card"><div class="result-burst" id="resultIcon">✦</div><p class="eyebrow" id="resultKicker">Бой завершён</p><h2 id="resultTitle">Путь свободен</h2><p id="resultCopy">Буря отступает на несколько мгновений.</p><div class="reward-row"><div><span>Награда</span><strong id="resultReward">+4 ✦</strong></div><div><span>Открыт узел</span><strong id="resultUnlock">Ⅱ</strong></div></div><button class="primary-button" id="playAgainButton" type="button">На карту <span>→</span></button></section></div>
+    <div class="toast" id="toast" role="status"></div>
+    <script src="engine.js?v=4"></script><script src="battle.js?v=4"></script>
   </body>
 </html>
