@@ -1,36 +1,103 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tower Defense Game</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <h1>Protect Mahatma Gandhi</h1>
-    <div id="game-container">
-        <canvas id="gameCanvas" width="800" height="600"></canvas>
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#100b2d" />
+    <meta name="description" content="Piu Piu Pop — быстрая космическая игра три в ряд." />
+    <title>Piu Piu Pop — три в ряд</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="stars" aria-hidden="true"></div>
+    <main class="game-shell">
+      <header class="topbar">
+        <a class="brand" href="./" aria-label="Piu Piu Pop">
+          <span class="brand-mark">P!</span>
+          <span><strong>PIU PIU</strong><small>POP</small></span>
+        </a>
+        <div class="top-actions">
+          <button class="icon-button" id="soundButton" type="button" aria-label="Выключить звук" title="Звук">♪</button>
+          <button class="icon-button" id="restartButton" type="button" aria-label="Начать заново" title="Начать заново">↻</button>
+        </div>
+      </header>
+
+      <section class="mission" aria-label="Задание уровня">
+        <div>
+          <p class="eyebrow">Миссия 01</p>
+          <h1>Разбуди туманность</h1>
+          <p class="mission-copy">Собирай фиолетовые ядра и запускай цепные реакции.</p>
+        </div>
+        <div class="best-score">
+          <span>Рекорд</span>
+          <strong id="bestScore">0</strong>
+        </div>
+      </section>
+
+      <section class="hud" aria-label="Статистика игры">
+        <div class="stat-card moves-card">
+          <span>Ходы</span>
+          <strong id="movesValue">28</strong>
+        </div>
+        <div class="stat-card score-card">
+          <span>Очки</span>
+          <strong id="scoreValue">0</strong>
+          <div class="score-track" aria-hidden="true"><i id="scoreFill"></i></div>
+        </div>
+        <div class="stat-card goal-card">
+          <span>Осталось</span>
+          <strong><i class="mini-gem violet"></i><b id="goalValue">20</b></strong>
+        </div>
+      </section>
+
+      <section class="play-area">
+        <div class="combo-pill" id="comboPill" aria-live="polite">Комбо ×2</div>
+        <div class="board-wrap">
+          <div id="board" class="board" role="grid" aria-label="Игровое поле восемь на восемь"></div>
+          <div class="board-lock" id="boardLock" aria-hidden="true"></div>
+        </div>
+        <p class="status" id="statusText" aria-live="polite">Поменяй соседние ядра местами</p>
+        <div class="helper-actions">
+          <button class="soft-button" id="hintButton" type="button"><span>✦</span> Подсказка</button>
+          <button class="soft-button" id="shuffleButton" type="button"><span>⤨</span> Перемешать</button>
+        </div>
+      </section>
+
+      <details class="rules">
+        <summary>Как работают усилители?</summary>
+        <div class="rules-grid">
+          <p><span class="rule-icon rocket">↔</span><b>4 в ряд</b><small>Ракета очищает линию</small></p>
+          <p><span class="rule-icon bomb">✹</span><b>Угол</b><small>Бомба взрывает соседей</small></p>
+          <p><span class="rule-icon nova">✦</span><b>5 в ряд</b><small>Нова убирает весь цвет</small></p>
+        </div>
+      </details>
+    </main>
+
+    <div class="modal-backdrop visible" id="startModal" role="dialog" aria-modal="true" aria-labelledby="startTitle">
+      <section class="modal-card intro-card">
+        <div class="planet" aria-hidden="true"><i></i><i></i><i></i></div>
+        <p class="eyebrow">Новая экспедиция</p>
+        <h2 id="startTitle">Туманность гаснет</h2>
+        <p>Собери <b>20 фиолетовых ядер</b> за 28 ходов. Длинные комбинации создают усилители.</p>
+        <button class="primary-button" id="startButton" type="button">Полетели <span>→</span></button>
+      </section>
     </div>
-    <div id="controls">
-        <button onclick="selectTower('circle')">Circle Tower (50 coins)</button>
-        <button onclick="selectTower('square')">Square Tower (50 coins)</button>
-        <button id="startLevelButton" onclick="startLevel()">Start Level</button>
-        <button id="upgradeTowerButton" onclick="upgradeTower()">Upgrade Tower</button>
+
+    <div class="modal-backdrop" id="resultModal" role="dialog" aria-modal="true" aria-labelledby="resultTitle">
+      <section class="modal-card result-card">
+        <div class="result-burst" id="resultIcon" aria-hidden="true">✦</div>
+        <p class="eyebrow" id="resultKicker">Миссия выполнена</p>
+        <h2 id="resultTitle">Туманность сияет!</h2>
+        <p id="resultCopy">Отличная цепная реакция.</p>
+        <div class="result-score"><span>Счёт</span><strong id="resultScore">0</strong></div>
+        <button class="primary-button" id="playAgainButton" type="button">Ещё раз <span>↻</span></button>
+      </section>
     </div>
-    <div id="info">
-        Balance: <span id="balance">100</span> Lives: <span id="lives">10</span>
-    </div>
-    <div id="phase-info"></div>
-    <div id="game-over" style="display: none;">
-        Chumburcheknuks captured Mahatma! 
-        <button id="newGameButton" onclick="newGame()">New Game</button>
-    </div>
-    <script src="scripts/maps.js"></script>
-    <script src="scripts/stories.js"></script>
-    <script src="scripts/enemies.js"></script>
-    <script src="scripts/towers.js"></script>
-    <script src="scripts/utils.js"></script>
-    <script src="scripts/main.js"></script>
-    <script src="scripts/game.js"></script>
-</body>
+
+    <script src="engine.js"></script>
+    <script src="app.js"></script>
+  </body>
 </html>
