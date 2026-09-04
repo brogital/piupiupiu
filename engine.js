@@ -14,6 +14,7 @@
       this.goalColor = options.goalColor || "violet";
       this.goalAmount = options.goalAmount || 20;
       this.random = options.random || Math.random;
+      this.nextPieceId = 1;
       this.reset();
     }
 
@@ -25,7 +26,7 @@
       return this.snapshot();
     }
 
-    makePiece(color, special = null) { return { color, special }; }
+    makePiece(color, special = null, uid = null) { return { color, special, uid: uid ?? this.nextPieceId++ }; }
     cloneBoard(board = this.board) { return board.map(piece => piece ? { ...piece } : null); }
     snapshot() { return { board: this.cloneBoard(), moves: this.moves, score: this.score, collected: this.collected }; }
     rowOf(index) { return Math.floor(index / this.size); }
@@ -139,7 +140,7 @@
       if (intersection) {
         const cell = preferred.find(p => membership.get(p) > 1) ?? intersection[0];
         const piece = this.board[cell];
-        if (piece) creators.set(cell, this.makePiece(piece.color, "bomb"));
+        if (piece) creators.set(cell, this.makePiece(piece.color, "bomb", piece.uid));
       }
       for (const group of groups) {
         if (group.cells.some(cell => creators.has(cell))) continue;
@@ -148,7 +149,7 @@
         else if (group.cells.length === 4) special = group.orientation;
         if (!special) continue;
         const cell = preferred.find(p => group.cells.includes(p)) ?? group.cells[Math.floor(group.cells.length / 2)];
-        if (!creators.has(cell)) creators.set(cell, this.makePiece(group.color, special));
+        if (!creators.has(cell)) creators.set(cell, this.makePiece(group.color, special, this.board[cell]?.uid));
       }
       return creators;
     }

@@ -2,11 +2,11 @@
   "use strict";
 
   const LEVELS = [
-    { roman: "Ⅰ", title: "Пепельный спуск", name: "Осколочник", className: "Порождение бури", hp: 180, min: 6, max: 8, reward: 4, curseEvery: 4, state: "Кружит над разрушенной дорогой", story: "Первый путь к маяку усеян живыми обломками. Они слышат каждый всплеск резонанса." },
-    { roman: "Ⅱ", title: "Разорванный мост", name: "Ветровой гончий", className: "Хищник разлома", hp: 230, min: 7, max: 10, reward: 5, curseEvery: 3, state: "Готовится сорваться с цепей", story: "Между островами остались только цепи. На них охотится зверь, который умеет красть ветер." },
-    { roman: "Ⅲ", title: "Страж Якоря", name: "Пустой латник", className: "Элитный страж", hp: 285, min: 8, max: 11, reward: 7, curseEvery: 3, state: "Держит проход к нижним ярусам", story: "Доспех помнит приказ, но забыл хозяина. Чтобы пройти, придётся разбить его клятву." },
-    { roman: "Ⅳ", title: "Сердце механизма", name: "Слепой проводник", className: "Искажённый резонатор", hp: 345, min: 9, max: 12, reward: 8, curseEvery: 3, startCurses: 4, state: "Порча уже впилась в механизм", story: "Внутри маяка мир звучит неправильно. Кто-то настроил его сердце на частоту Бездны." },
-    { roman: "Ⅴ", title: "Сломанный маяк", name: "Пожиратель света", className: "Древний зверь", hp: 430, min: 10, max: 14, reward: 12, curseEvery: 2, startCurses: 3, state: "Втягивает последний свет маяка", story: "Источник Беззвучной Бури смотрит из-под обсидианового панциря. Маяк погаснет навсегда, если отряд отступит." }
+    { roman: "Ⅰ", title: "Пепельный спуск", name: "Осколочник", className: "Порождение бури", hp: 180, min: 6, max: 8, reward: 4, curseEvery: 4, move: "Когти пепла", state: "Кружит над разрушенной дорогой", story: "Первый путь к маяку усеян живыми обломками. Они слышат каждый всплеск резонанса." },
+    { roman: "Ⅱ", title: "Разорванный мост", name: "Ветровой гончий", className: "Хищник разлома", hp: 230, min: 7, max: 10, reward: 5, curseEvery: 3, move: "Рывок сквозь ветер", state: "Готовится сорваться с цепей", story: "Между островами остались только цепи. На них охотится зверь, который умеет красть ветер." },
+    { roman: "Ⅲ", title: "Страж Якоря", name: "Пустой латник", className: "Элитный страж", hp: 285, min: 8, max: 11, reward: 7, curseEvery: 3, move: "Удар пустого клинка", state: "Держит проход к нижним ярусам", story: "Доспех помнит приказ, но забыл хозяина. Чтобы пройти, придётся разбить его клятву." },
+    { roman: "Ⅳ", title: "Сердце механизма", name: "Слепой проводник", className: "Искажённый резонатор", hp: 345, min: 9, max: 12, reward: 8, curseEvery: 3, startCurses: 4, move: "Искажённый импульс", state: "Порча уже впилась в механизм", story: "Внутри маяка мир звучит неправильно. Кто-то настроил его сердце на частоту Бездны." },
+    { roman: "Ⅴ", title: "Сломанный маяк", name: "Пожиратель света", className: "Древний зверь", hp: 430, min: 10, max: 14, reward: 12, curseEvery: 2, startCurses: 3, move: "Поглощение света", state: "Втягивает последний свет маяка", story: "Источник Беззвучной Бури смотрит из-под обсидианового панциря. Маяк погаснет навсегда, если отряд отступит." }
   ];
   const SAVE_KEY = "shards-of-storm-v2";
   const defaultProgress = { unlocked: 0, completed: [], shards: 0, ranks: { reynar: 1, elli: 1, saira: 1 } };
@@ -141,6 +141,7 @@
       if (options.invalid?.includes(index)) tile.classList.add("invalid");
       const gem = document.createElement("span");
       gem.className = `gem ${piece.color}${piece.special ? ` special-${piece.special}` : ""}`;
+      gem.dataset.pieceId = piece.uid;
       const mark = document.createElement("span");
       mark.className = "gem-mark";
       mark.textContent = marks[piece.color];
@@ -160,6 +161,7 @@
     document.querySelector("#shieldValue").classList.toggle("active", battle.shield > 0);
     document.querySelector("#shieldValue strong").textContent = battle.shield;
     document.querySelector("#enemyIntent strong").textContent = battle.intent;
+    document.querySelector("#intentMove").textContent = LEVELS[currentLevel].move;
     Object.entries(heroes).forEach(([key, hero]) => {
       document.querySelector(`#${key}Mana`).style.width = `${hero.mana / hero.max * 100}%`;
       document.querySelector(`#${key}ManaText`).textContent = `${hero.mana}/${hero.max}`;
@@ -204,39 +206,64 @@
     await Promise.all([gemA.animate(frames(dx, dy), timing).finished, gemB.animate(frames(-dx, -dy), timing).finished]);
   }
 
-  function animateFall() {
-    boardEl.querySelectorAll(".gem").forEach((gem, index) => gem.animate(
-      [{ transform: "translateY(-75%) scale(.68)", opacity: .1 }, { transform: "translateY(8%) scale(1.08)", opacity: 1, offset: .75 }, { transform: "translateY(0) scale(.94)", opacity: 1 }],
-      { duration: 300, delay: Math.floor(index / 8) * 8, easing: "cubic-bezier(.12,.75,.24,1)" }
-    ));
+  async function animateFall(previousBoard, nextBoard) {
+    const previousIndexes = new Map();
+    previousBoard.forEach((piece, index) => { if (piece) previousIndexes.set(piece.uid, index); });
+    const cell = boardEl.getBoundingClientRect().width / engine.size;
+    const animations = [];
+    boardEl.querySelectorAll(".gem").forEach((gem, index) => {
+      const piece = nextBoard[index];
+      const previousIndex = previousIndexes.get(piece.uid);
+      const isNew = previousIndex === undefined;
+      const fromRow = isNew ? -2 - engine.rowOf(index) : engine.rowOf(previousIndex);
+      const fromCol = isNew ? engine.colOf(index) : engine.colOf(previousIndex);
+      const dx = (fromCol - engine.colOf(index)) * cell;
+      const dy = (fromRow - engine.rowOf(index)) * cell;
+      if (!isNew && Math.abs(dx) < 1 && Math.abs(dy) < 1) return;
+      const animation = gem.animate(
+        [
+          { transform: `translate(${dx}px, ${dy}px) scale(${isNew ? .72 : .94})`, opacity: isNew ? 0 : 1 },
+          { transform: "translate(0, 7px) scale(1.04)", opacity: 1, offset: .82 },
+          { transform: "translate(0, 0) scale(.94)", opacity: 1 }
+        ],
+        { duration: 430 + Math.min(120, Math.abs(dy) * .16), delay: engine.colOf(index) * 9, easing: "cubic-bezier(.17,.72,.22,1)", fill: "both" }
+      );
+      animations.push(animation.finished.catch(() => {}));
+    });
+    await Promise.all(animations);
   }
 
   async function playStages(result) {
     setBusy(true);
+    let previousBoard = engine.cloneBoard();
     for (const stage of result.stages) {
       if (stage.type === "swap") {
         await animateSwap(stage.cells);
         render(stage.board);
+        previousBoard = stage.board;
         sound(300, .05, "triangle");
       } else if (stage.type === "invalid") {
         await animateSwap(stage.cells, true);
         render(stage.board, { invalid: stage.cells });
+        previousBoard = stage.board;
         sound(120, .12, "sawtooth", .02);
         statusEl.textContent = "Нити не соединяются";
       } else if (stage.type === "clear") {
         render(stage.board, { clearing: stage.cells });
+        previousBoard = stage.board;
         showCombo(stage.combo);
-        battleScreen.classList.add("impact");
-        setTimeout(() => battleScreen.classList.remove("impact"), 260);
+        battleScreen.classList.add("resonating");
+        setTimeout(() => battleScreen.classList.remove("resonating"), 360);
         sound(410 + stage.combo * 100, .14, "sine", .05);
-        await sleep(390);
+        await sleep(430);
       } else if (stage.type === "fall") {
         render(stage.board);
-        animateFall();
-        await sleep(330);
+        await animateFall(previousBoard, stage.board);
+        previousBoard = stage.board;
       } else if (stage.type === "shuffle") {
         statusEl.textContent = "Буря перестраивает руны";
         render(stage.board);
+        previousBoard = stage.board;
         await sleep(320);
       }
     }
@@ -292,12 +319,39 @@
   }
   function cursedCount() { return engine.board.filter(piece => piece.cursed).length; }
 
+  async function launchEnemyProjectile() {
+    const source = document.querySelector(".enemy-avatar").getBoundingClientRect();
+    const target = document.querySelector("#playerVitals").getBoundingClientRect();
+    const orb = document.createElement("div");
+    orb.className = "enemy-projectile";
+    orb.style.left = `${source.left + source.width / 2 - 13}px`;
+    orb.style.top = `${source.top + source.height / 2 - 13}px`;
+    document.body.append(orb);
+    const dx = target.left + target.width * .7 - (source.left + source.width / 2);
+    const dy = target.top + target.height / 2 - (source.top + source.height / 2);
+    await orb.animate([
+      { transform: "translate(0,0) scale(.45)", opacity: 0 },
+      { transform: "translate(0,0) scale(1.2)", opacity: 1, offset: .18 },
+      { transform: `translate(${dx * .62}px,${dy * .38 - 28}px) scale(.9)`, opacity: 1, offset: .62 },
+      { transform: `translate(${dx}px,${dy}px) scale(.35)`, opacity: .9 }
+    ], { duration: 720, easing: "cubic-bezier(.22,.62,.24,1)", fill: "forwards" }).finished.catch(() => {});
+    orb.remove();
+  }
+
   async function enemyTurn() {
     const level = LEVELS[currentLevel];
     battle.enemyTurns++;
-    document.querySelector("#enemyState").textContent = "Зверь накапливает бурю…";
+    const overlay = document.querySelector("#enemyTurnOverlay");
+    document.querySelector("#enemyMoveName").textContent = level.move;
+    document.querySelector("#enemyMoveDamage").textContent = battle.intent + Math.floor(cursedCount() / 3);
+    document.querySelector("#enemyState").textContent = `Применяет: ${level.move}`;
+    statusEl.textContent = `Ход врага · ${level.move}`;
+    battleScreen.classList.add("enemy-turn");
+    overlay.classList.add("visible");
+    sound(155, .28, "sawtooth", .025);
+    await sleep(760);
     enemyCard.classList.add("acting");
-    await sleep(560);
+    await launchEnemyProjectile();
     let incoming = battle.intent + Math.floor(cursedCount() / 3);
     const absorbed = Math.min(battle.shield, incoming);
     battle.shield -= absorbed;
@@ -306,19 +360,25 @@
     if (absorbed) floatText(`Щит −${absorbed}`, document.querySelector(".player-vitals"), "shield");
     if (incoming) floatText(`−${incoming}`, document.querySelector(".player-vitals"));
     document.querySelector(".player-vitals").classList.add("hit");
-    await sleep(380);
+    sound(82, .24, "square", .06);
+    await sleep(520);
     document.querySelector(".player-vitals").classList.remove("hit");
     enemyCard.classList.remove("acting");
     if (battle.enemyTurns % level.curseEvery === 0) {
       curseTiles(currentLevel >= 3 ? 4 : 3);
       statusEl.textContent = "Порча впивается в стихийные руны";
+      document.querySelector("#enemyMoveName").textContent = "Волна порчи";
+      document.querySelector("#enemyMoveDamage").textContent = "+3 клетки";
       render();
-      await sleep(450);
+      await sleep(700);
     }
     battle.intent = randomInt(level.min, level.max);
     battle.turn++;
     document.querySelector("#enemyState").textContent = cursedCount() ? `Порча на поле: ${cursedCount()}` : level.state;
     updateHud();
+    overlay.classList.remove("visible");
+    battleScreen.classList.remove("enemy-turn");
+    await sleep(260);
   }
 
   async function makeMove(a, b) {
@@ -427,6 +487,7 @@
     document.querySelector("#enemyClass").textContent = level.className;
     document.querySelector("#enemyName").textContent = level.name;
     document.querySelector("#enemyState").textContent = level.state;
+    document.querySelector("#intentMove").textContent = level.move;
     document.querySelector("#enemyPortrait").alt = level.name;
     render();
     setBusy(false);

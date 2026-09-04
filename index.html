@@ -48,8 +48,8 @@
         <div class="battle-layout">
           <div class="battle-main">
             <section class="chapter-heading"><div><p class="eyebrow" id="battleChapter">Узел I</p><h1 id="battleTitle">Пепельный спуск</h1></div><span class="turn-counter">Ход <b id="turnValue">1</b></span></section>
-            <section class="enemy-card" id="enemyCard" aria-label="Противник"><div class="enemy-avatar"><img id="enemyPortrait" src="assets/devourer.webp" alt="Противник" /></div><div class="enemy-info"><div class="enemy-title"><div><span id="enemyClass">Порождение бури</span><strong id="enemyName">Осколочник</strong></div><b id="enemyHpText">180 / 180</b></div><div class="health-track enemy-health"><i id="enemyHpFill"></i></div><p id="enemyState">Кружит над разрушенной дорогой</p></div><div class="intent" id="enemyIntent"><span>Следующий удар</span><strong>7</strong></div></section>
-            <section class="player-vitals"><div><span>Отряд</span><strong id="playerHpText">150 / 150</strong></div><div class="health-track"><i id="playerHpFill"></i></div><div class="shield-value" id="shieldValue"><span>Щит</span><strong>0</strong></div></section>
+            <section class="enemy-card" id="enemyCard" aria-label="Противник"><div class="enemy-avatar"><img id="enemyPortrait" src="assets/devourer.webp" alt="Противник" /></div><div class="enemy-info"><div class="enemy-title"><div><span id="enemyClass">Порождение бури</span><strong id="enemyName">Осколочник</strong></div><b id="enemyHpText">180 / 180</b></div><div class="health-track enemy-health"><i id="enemyHpFill"></i></div><p id="enemyState">Кружит над разрушенной дорогой</p></div><div class="intent" id="enemyIntent"><span>Готовит</span><b id="intentMove">Когти пепла</b><strong>7</strong></div></section>
+            <section class="player-vitals" id="playerVitals"><div><span>Отряд</span><strong id="playerHpText">150 / 150</strong></div><div class="health-track"><i id="playerHpFill"></i></div><div class="shield-value" id="shieldValue"><span>Щит</span><strong>0</strong></div></section>
             <section class="play-area"><div class="combo-pill" id="comboPill">Резонанс ×2</div><div class="board-wrap"><div id="board" class="board" role="grid" aria-label="Игровое поле восемь на восемь"></div><div class="board-lock active" id="boardLock"></div></div><p class="status" id="statusText">Соедини стихийные руны</p></section>
           </div>
           <aside class="battle-sidebar">
@@ -63,6 +63,7 @@
             <button class="retreat-button" id="retreatButton" type="button">Отступить на карту</button>
           </aside>
         </div>
+        <div class="enemy-turn-overlay" id="enemyTurnOverlay" aria-live="assertive"><span>Ход врага</span><strong id="enemyMoveName">Когти пепла</strong><small>Входящий урон <b id="enemyMoveDamage">7</b></small></div>
       </section>
     </main>
 
